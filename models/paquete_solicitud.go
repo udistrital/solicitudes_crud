@@ -11,7 +11,7 @@ import (
 )
 
 type PaqueteSolicitud struct {
-	Id                    int                  `orm:"column(id);pk"`
+	Id                    int                  `orm:"column(id);pk;auto"`
 	PaqueteId             *Paquete             `orm:"column(paquete_id);rel(fk)"`
 	SolicitudId           *Solicitud           `orm:"column(solicitud_id);rel(fk)"`
 	EstadoTipoSolicitudId *EstadoTipoSolicitud `orm:"column(estado_tipo_solicitud_id);rel(fk)"`

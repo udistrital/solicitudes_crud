@@ -11,7 +11,7 @@ import (
 )
 
 type Solicitud struct {
-	Id                    int                  `orm:"column(id);pk"`
+	Id                    int                  `orm:"column(id);pk;auto"`
 	EstadoTipoSolicitudId *EstadoTipoSolicitud `orm:"column(estado_tipo_solicitud_id);rel(fk)"`
 	Referencia            string               `orm:"column(referencia);type(json)"`
 	Resultado             string               `orm:"column(resultado);type(json);null"`

@@ -11,8 +11,8 @@ import (
 )
 
 type EstadoTipoSolicitud struct {
-	Id                int            `orm:"column(id);pk"`
-	TipoSolicitud     *TipoSolicitud `orm:"column(tipo_solicitud);rel(fk)"`
+	Id                int            `orm:"column(id);pk;auto"`
+	TipoSolicitud     *TipoSolicitud `orm:"column(tipo_solicitud_id);rel(fk)"`
 	EstadoId          *Estado        `orm:"column(estado_id);rel(fk)"`
 	DependenciaId     int            `orm:"column(dependencia_id)"`
 	NumeroDias        int            `orm:"column(numero_dias)"`

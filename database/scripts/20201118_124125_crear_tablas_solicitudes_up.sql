@@ -125,7 +125,7 @@ CREATE TABLE solicitud.soporte_paquete(
 -- DROP TABLE IF EXISTS solicitud.estado_tipo_solicitud CASCADE;
 CREATE TABLE solicitud.estado_tipo_solicitud(
 	id serial NOT NULL,
-	tipo_solicitud integer NOT NULL,
+	tipo_solicitud_id integer NOT NULL,
 	estado_id integer NOT NULL,
 	dependencia_id integer NOT NULL,
 	numero_dias integer NOT NULL,
@@ -226,7 +226,7 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- object: fk_estado_tipo_solicitud_tipo_solicitud | type: CONSTRAINT --
 -- ALTER TABLE solicitud.estado_tipo_solicitud DROP CONSTRAINT IF EXISTS fk_estado_tipo_solicitud_tipo_solicitud CASCADE;
-ALTER TABLE solicitud.estado_tipo_solicitud ADD CONSTRAINT fk_estado_tipo_solicitud_tipo_solicitud FOREIGN KEY (tipo_solicitud)
+ALTER TABLE solicitud.estado_tipo_solicitud ADD CONSTRAINT fk_estado_tipo_solicitud_tipo_solicitud FOREIGN KEY (tipo_solicitud_id)
 REFERENCES solicitud.tipo_solicitud (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --

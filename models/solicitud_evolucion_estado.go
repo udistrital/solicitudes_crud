@@ -11,7 +11,7 @@ import (
 )
 
 type SolicitudEvolucionEstado struct {
-	Id                            int                  `orm:"column(id);pk"`
+	Id                            int                  `orm:"column(id);pk;auto"`
 	TerceroId                     int                  `orm:"column(tercero_id)"`
 	SolicitudId                   *Solicitud           `orm:"column(solicitud_id);rel(fk)"`
 	EstadoTipoSolicitudIdAnterior *EstadoTipoSolicitud `orm:"column(estado_tipo_solicitud_id_anterior);rel(fk)"`

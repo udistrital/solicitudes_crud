@@ -11,7 +11,7 @@ import (
 )
 
 type SoportePaquete struct {
-	Id                int       `orm:"column(id);pk"`
+	Id                int       `orm:"column(id);pk;auto"`
 	PaqueteId         *Paquete  `orm:"column(paquete_id);rel(fk)"`
 	DocumentoId       int       `orm:"column(documento_id)"`
 	Descripcion       string    `orm:"column(descripcion);null"`
