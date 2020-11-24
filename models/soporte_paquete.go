@@ -5,18 +5,18 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-	"time"
+	// "time"
 
 	"github.com/astaxie/beego/orm"
 )
 
 type SoportePaquete struct {
-	Id                int       `orm:"column(id);pk"`
+	Id                int       `orm:"column(id);pk;auto"`
 	PaqueteId         *Paquete  `orm:"column(paquete_id);rel(fk)"`
 	DocumentoId       int       `orm:"column(documento_id)"`
 	Descripcion       string    `orm:"column(descripcion);null"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     string    `orm:"column(fecha_creacion);type(timestamp without time zone)"`
+	FechaModificacion string    `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 	Activo            bool      `orm:"column(activo)"`
 }
 
