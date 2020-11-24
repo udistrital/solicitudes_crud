@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-	"time"
+	// "time"
 
 	"github.com/astaxie/beego/orm"
 )
 
 type Observacion struct {
-	Id                int              `orm:"column(id);pk"`
+	Id                int              `orm:"column(id);pk;auto"`
 	TipoObservacionId *TipoObservacion `orm:"column(tipo_observacion_id);rel(fk)"`
 	SolicitudId       *Solicitud       `orm:"column(solicitud_id);rel(fk)"`
 	TerceroId         int              `orm:"column(tercero_id)"`
 	Valor             string           `orm:"column(valor)"`
-	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     string           `orm:"column(fecha_creacion);type(timestamp without time zone)"`
+	FechaModificacion string           `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 	Activo            bool             `orm:"column(activo)"`
 }
 
