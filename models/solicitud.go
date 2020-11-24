@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-	"time"
+	// "time"
 
 	"github.com/astaxie/beego/orm"
 )
@@ -15,9 +15,9 @@ type Solicitud struct {
 	EstadoTipoSolicitudId *EstadoTipoSolicitud `orm:"column(estado_tipo_solicitud_id);rel(fk)"`
 	Referencia            string               `orm:"column(referencia);type(json)"`
 	Resultado             string               `orm:"column(resultado);type(json);null"`
-	FechaRadicacion       time.Time            `orm:"column(fecha_radicacion);type(timestamp without time zone);null"`
-	FechaCreacion         time.Time            `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion     time.Time            `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaRadicacion       string               `orm:"column(fecha_radicacion);type(timestamp without time zone);null"`
+	FechaCreacion         string               `orm:"column(fecha_creacion);type(timestamp without time zone)"`
+	FechaModificacion     string               `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 	Activo                bool                 `orm:"column(activo)"`
 	SolicitudPadreId      *Solicitud           `orm:"column(solicitud_padre_id);rel(fk)"`
 }

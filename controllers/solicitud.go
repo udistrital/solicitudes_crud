@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/udistrital/solicitudes_crud/models"
+	"github.com/udistrital/utils_oas/time_bogota"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
@@ -36,6 +37,11 @@ func (c *SolicitudController) URLMapping() {
 func (c *SolicitudController) Post() {
 	var v models.Solicitud
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		
+		v.FechaCreacion = time_bogota.TiempoBogotaFormato()
+		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
+		v.FechaRadicacion = time_bogota.TiempoCorreccionFormato(v.FechaRadicacion)
+		
 		if _, err := models.AddSolicitud(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "201", "Message": "Registration successful", "Data": v}
@@ -154,6 +160,11 @@ func (c *SolicitudController) Put() {
 	id, _ := strconv.Atoi(idStr)
 	v := models.Solicitud{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+				
+		v.FechaCreacion = time_bogota.TiempoCorreccionFormato(v.FechaCreacion)
+		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
+		v.FechaRadicacion = time_bogota.TiempoCorreccionFormato(v.FechaRadicacion)
+		
 		if err := models.UpdateSolicitudById(&v); err == nil {
 			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Update successful", "Data": v}
 		} else {
