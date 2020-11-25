@@ -2,6 +2,7 @@ lastupdate.tmp
 .vscode/
 solicitudes_crud
 main
+routers/commentsRouter_controllers.go
 .scannerwork/
 swagger/*.png
 swagger/*.html
