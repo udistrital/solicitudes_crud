@@ -65,6 +65,7 @@ func AddNuevaSolicitud(m *TrSolicitudCrear)(err error){
 type TrSolicitudCrear struct {
 	Solicitud       *Solicitud
 	Solicitantes    *[]Solicitante
+	Observaciones   *[]Observacion
 	EvolucionEstado *SolicitudEvolucionEstado
 }
 
@@ -101,4 +102,45 @@ func AddNuevaSolicitud(m *TrSolicitudCrear) (err error) {
 		_ = o.Rollback()
 	}
 	return
+}
+
+// GetSolicitudesByPersona Transacción para consultar todas las solicitudes con toda la información de las mismas
+func GetSolicitudesByPersona(persona int) (v []interface{}, err error) {
+	o := orm.NewOrm()
+	var solicitantes []*Solicitante
+	if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("tercero_id", persona).Filter("SolicitudId__Activo", true).All(&solicitantes); err == nil {
+		for _, solicitante := range solicitantes {
+
+			solicitud := solicitante.SolicitudId
+
+			var solicitantesSolicitud []Solicitante
+			if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&solicitantesSolicitud); err != nil {
+				return nil, err
+			}
+
+			var evolucionEstado SolicitudEvolucionEstado
+			if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&evolucionEstado); err != nil {
+				return nil, err
+			}
+
+			var observaciones []Observacion
+			if _, err := o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&observaciones); err != nil {
+				return nil, err
+			}
+
+			v = append(v, map[string]interface{}{
+				"Id":                    solicitud.Id,
+				"EstadoTipoSolicitudId": solicitud.EstadoTipoSolicitudId,
+				"Referencia":            solicitud.Referencia,
+				"Resultado":             solicitud.Resultado,
+				"FechaRadicacion":       solicitud.FechaRadicacion,
+				"EvolucionEstado":       &evolucionEstado,
+				"Solicitantes":          &solicitantesSolicitud,
+				"Observaciones":         &observaciones,
+			})
+		}
+
+		return v, nil
+	}
+	return nil, err
 }

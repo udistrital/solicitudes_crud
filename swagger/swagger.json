@@ -1945,11 +1945,44 @@
                     }
                 }
             }
+        },
+        "/tr_solicitud_crear/{persona}": {
+            "get": {
+                "tags": [
+                    "tr_solicitud_crear"
+                ],
+                "description": "get TrSolicitudCrearControllerController",
+                "operationId": "TrSolicitudCrearController.Get All By Persona",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Persona",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.TrSolicitudCrearControllerController"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            }
         }
     },
     "definitions": {
         "52841.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
+            "type": "object"
+        },
+        "52874.\u003cnil\u003e.Observacion": {
+            "title": "Observacion",
             "type": "object"
         },
         "models.Estado": {
@@ -2294,6 +2327,9 @@
                 "EvolucionEstado": {
                     "$ref": "#/definitions/models.SolicitudEvolucionEstado"
                 },
+                "Observaciones": {
+                    "$ref": "#/definitions/52874.\u003cnil\u003e.Observacion"
+                },
                 "Solicitantes": {
                     "$ref": "#/definitions/52841.\u003cnil\u003e.Solicitante"
                 },
@@ -2301,6 +2337,10 @@
                     "$ref": "#/definitions/models.Solicitud"
                 }
             }
+        },
+        "models.TrSolicitudCrearControllerController": {
+            "title": "TrSolicitudCrearControllerController",
+            "type": "object"
         }
     },
     "tags": [
