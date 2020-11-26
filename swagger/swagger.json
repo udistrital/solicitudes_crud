@@ -1948,7 +1948,7 @@
         }
     },
     "definitions": {
-        "51062.\u003cnil\u003e.Solicitante": {
+        "52841.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
@@ -2295,7 +2295,7 @@
                     "$ref": "#/definitions/models.SolicitudEvolucionEstado"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/51062.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/52841.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"

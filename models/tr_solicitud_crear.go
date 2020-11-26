@@ -10,6 +10,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	// "github.com/udistrital/utils_oas/time_bogota"
 )
+
 /*
 type TrSolicitudCrear struct {
 	FechaRadicacion     string
@@ -26,8 +27,8 @@ func AddNuevaSolicitud(m *TrSolicitudCrear)(err error){
 	var solicitud = new(Solicitud)
 	fmt.Println(solicitud)
 
-	
-	
+
+
 	solicitud.FechaCreacion = time_bogota.TiempoBogotaFormato()
 	solicitud.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	solicitud.FechaRadicacion = time_bogota.TiempoCorreccionFormato(m.FechaRadicacion)
@@ -62,12 +63,12 @@ func AddNuevaSolicitud(m *TrSolicitudCrear)(err error){
 */
 
 type TrSolicitudCrear struct {
-	Solicitud           *Solicitud
-	Solicitantes        *[]Solicitante
-	EvolucionEstado     *SolicitudEvolucionEstado
+	Solicitud       *Solicitud
+	Solicitantes    *[]Solicitante
+	EvolucionEstado *SolicitudEvolucionEstado
 }
 
-func AddNuevaSolicitud(m *TrSolicitudCrear)(err error){
+func AddNuevaSolicitud(m *TrSolicitudCrear) (err error) {
 	o := orm.NewOrm()
 	err = o.Begin()
 
