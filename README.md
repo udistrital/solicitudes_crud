@@ -17,7 +17,7 @@ SOLICITUD_CRUD_RUN_MODE=[Modo de ejecución del API]
 # paramametros de bd
 SOLICITUD_CRUD_PGUSER=[Usuario de BD]
 SOLICITUD_CRUD_PGPASS=[Contraseña del usaurio de BD]
-SOLICITUD_CRUD_PGURL=[URL, Dominio o EndPoint de la BD]
+SOLICITUD_CRUD_PGHOST=[URL, Dominio o EndPoint de la BD]
 SOLICITUD_CRUD_PGPORT=[Puerto de la BD]
 SOLICITUD_CRUD_PGDB=[Nombre de Base de Datos]
 SOLICITUD_CRUD_PGSCHEMA=[Nombre del Esquema de Base de Datos]
