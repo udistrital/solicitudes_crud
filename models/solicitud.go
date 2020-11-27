@@ -19,7 +19,7 @@ type Solicitud struct {
 	FechaCreacion         string               `orm:"column(fecha_creacion);type(timestamp without time zone)"`
 	FechaModificacion     string               `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 	Activo                bool                 `orm:"column(activo)"`
-	SolicitudPadreId      *Solicitud           `orm:"column(solicitud_padre_id);rel(fk)"`
+	SolicitudPadreId      *Solicitud           `orm:"column(solicitud_padre_id);rel(fk);null"`
 }
 
 func (t *Solicitud) TableName() string {
