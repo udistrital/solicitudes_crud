@@ -1,7 +1,8 @@
 lastupdate.tmp
 .vscode/
-produccion_academica_crud
+solicitudes_crud
 main
+routers/commentsRouter_controllers.go
 .scannerwork/
 swagger/*.png
 swagger/*.html

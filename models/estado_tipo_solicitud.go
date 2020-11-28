@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-	"time"
+	// "time"
 
 	"github.com/astaxie/beego/orm"
 )
 
 type EstadoTipoSolicitud struct {
-	Id                int            `orm:"column(id);pk"`
-	TipoSolicitud     *TipoSolicitud `orm:"column(tipo_solicitud);rel(fk)"`
+	Id                int            `orm:"column(id);pk;auto"`
+	TipoSolicitud     *TipoSolicitud `orm:"column(tipo_solicitud_id);rel(fk)"`
 	EstadoId          *Estado        `orm:"column(estado_id);rel(fk)"`
 	DependenciaId     int            `orm:"column(dependencia_id)"`
 	NumeroDias        int            `orm:"column(numero_dias)"`
-	FechaCreacion     time.Time      `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion time.Time      `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     string         `orm:"column(fecha_creacion);type(timestamp without time zone)"`
+	FechaModificacion string         `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 	Activo            bool           `orm:"column(activo)"`
 }
 
@@ -53,7 +53,7 @@ func GetEstadoTipoSolicitudById(id int) (v *EstadoTipoSolicitud, err error) {
 func GetAllEstadoTipoSolicitud(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(EstadoTipoSolicitud))
+	qs := o.QueryTable(new(EstadoTipoSolicitud)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
