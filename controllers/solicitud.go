@@ -37,11 +37,11 @@ func (c *SolicitudController) URLMapping() {
 func (c *SolicitudController) Post() {
 	var v models.Solicitud
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		
+
 		v.FechaCreacion = time_bogota.TiempoBogotaFormato()
 		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
 		v.FechaRadicacion = time_bogota.TiempoCorreccionFormato(v.FechaRadicacion)
-		
+
 		if _, err := models.AddSolicitud(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "201", "Message": "Registration successful", "Data": v}
@@ -71,10 +71,10 @@ func (c *SolicitudController) GetOne() {
 	v, err := models.GetSolicitudById(id)
 	if err != nil {
 		logs.Error(err)
-		c.Data["mesaage"] = "Error service GetOne: The request contains an incorrect parameter or no record exists"
+		c.Data["system"] = err
 		c.Abort("404")
 	} else {
-		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": v}
+		c.Data["json"] = v
 	}
 	c.ServeJSON()
 }
@@ -136,13 +136,13 @@ func (c *SolicitudController) GetAll() {
 	l, err := models.GetAllSolicitud(query, fields, sortby, order, offset, limit)
 	if err != nil {
 		logs.Error(err)
-		c.Data["mesaage"] = "Error service GetAll: The request contains an incorrect parameter or no record exists"
+		c.Data["system"] = err
 		c.Abort("404")
 	} else {
 		if l == nil {
 			l = append(l, map[string]interface{}{})
 		}
-		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": l}
+		c.Data["json"] = l
 	}
 	c.ServeJSON()
 }
@@ -160,11 +160,11 @@ func (c *SolicitudController) Put() {
 	id, _ := strconv.Atoi(idStr)
 	v := models.Solicitud{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-				
+
 		v.FechaCreacion = time_bogota.TiempoCorreccionFormato(v.FechaCreacion)
 		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
 		v.FechaRadicacion = time_bogota.TiempoCorreccionFormato(v.FechaRadicacion)
-		
+
 		if err := models.UpdateSolicitudById(&v); err == nil {
 			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Update successful", "Data": v}
 		} else {

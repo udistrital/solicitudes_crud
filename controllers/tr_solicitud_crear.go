@@ -48,11 +48,32 @@ func (c *TrSolicitudCrearController) Post() {
 	c.ServeJSON()
 }
 
+// GetAll ...
+// @Title Get All
+// @Description get TrSolicitudCrearController
+// @Success 200 {object} models.TrSolicitudCrearController
+// @Failure 404 not found resource
+// @router / [get]
+func (c *TrSolicitudCrearController) GetAll() {
+	l, err := models.GetAllSolicitudes()
+	if err != nil {
+		logs.Error(err)
+		c.Data["system"] = err
+		c.Abort("404")
+	} else {
+		if l == nil {
+			l = append(l, map[string]interface{}{})
+		}
+		c.Data["json"] = l
+	}
+	c.ServeJSON()
+}
+
 // GetAllByPersona ...
 // @Title Get All By Persona
-// @Description get TrSolicitudCrearControllerController
+// @Description get TrSolicitudCrearController
 // @Param	id		path 	string	true		"Persona"
-// @Success 200 {object} models.TrSolicitudCrearControllerController
+// @Success 200 {object} models.TrSolicitudCrearController
 // @Failure 404 not found resource
 // @router /:persona [get]
 func (c *TrSolicitudCrearController) GetAllByPersona() {

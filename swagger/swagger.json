@@ -1919,6 +1919,24 @@
             }
         },
         "/tr_solicitud_crear/": {
+            "get": {
+                "tags": [
+                    "tr_solicitud_crear"
+                ],
+                "description": "get TrSolicitudCrearController",
+                "operationId": "TrSolicitudCrearController.Get All",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.TrSolicitudCrearController"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "tr_solicitud_crear"
@@ -1951,7 +1969,7 @@
                 "tags": [
                     "tr_solicitud_crear"
                 ],
-                "description": "get TrSolicitudCrearControllerController",
+                "description": "get TrSolicitudCrearController",
                 "operationId": "TrSolicitudCrearController.Get All By Persona",
                 "parameters": [
                     {
@@ -1966,7 +1984,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.TrSolicitudCrearControllerController"
+                            "$ref": "#/definitions/models.TrSolicitudCrearController"
                         }
                     },
                     "404": {
@@ -1977,11 +1995,11 @@
         }
     },
     "definitions": {
-        "52841.\u003cnil\u003e.Solicitante": {
+        "51599.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "52874.\u003cnil\u003e.Observacion": {
+        "51632.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
@@ -2328,18 +2346,18 @@
                     "$ref": "#/definitions/models.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/52874.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/51632.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/52841.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/51599.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"
                 }
             }
         },
-        "models.TrSolicitudCrearControllerController": {
-            "title": "TrSolicitudCrearControllerController",
+        "models.TrSolicitudCrearController": {
+            "title": "TrSolicitudCrearController",
             "type": "object"
         }
     },
