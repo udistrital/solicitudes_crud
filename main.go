@@ -5,6 +5,7 @@ import (
 	apistatus "github.com/udistrital/utils_oas/apiStatusLib"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/plugins/cors"
 	_ "github.com/lib/pq"
@@ -40,6 +41,11 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+
+	logPath := "{\"filename\":\""
+	logPath += beego.AppConfig.String("logPath")
+	logPath += "\"}"
+	logs.SetLogger(logs.AdapterFile, logPath)
 
 	apistatus.Init()
 	beego.ErrorController(&customerrorv2.CustomErrorController{})
