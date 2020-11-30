@@ -2,14 +2,15 @@ package models
 
 import (
 	"fmt"
+
 	"github.com/astaxie/beego/orm"
 	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 type TrSolicitud struct {
-	Solicitud       *Solicitud
-	Solicitantes    *[]Solicitante
-	Observaciones   *[]Observacion
+	Solicitud         *Solicitud
+	Solicitantes      *[]Solicitante
+	Observaciones     *[]Observacion
 	EvolucionesEstado *[]SolicitudEvolucionEstado
 }
 
@@ -41,15 +42,15 @@ func AddNuevaSolicitud(m *TrSolicitud) (err error) {
 			}
 		}
 
-		for _, v := range *m.Observaciones {
-			v.SolicitudId.Id = int(idSolicitud)
-			if _, errTr = o.Insert(&v); errTr != nil {
-				err = errTr
-				fmt.Println(err)
-				_ = o.Rollback()
-				return
-			}
-		}
+		// for _, v := range *m.Observaciones {
+		// 	v.SolicitudId.Id = int(idSolicitud)
+		// 	if _, errTr = o.Insert(&v); errTr != nil {
+		// 		err = errTr
+		// 		fmt.Println(err)
+		// 		_ = o.Rollback()
+		// 		return
+		// 	}
+		// }
 
 		_ = o.Commit()
 	} else {
@@ -59,7 +60,6 @@ func AddNuevaSolicitud(m *TrSolicitud) (err error) {
 	}
 	return
 }
-
 
 func UpdateSolicitud(m *TrSolicitud) (err error) {
 	o := orm.NewOrm()
@@ -190,7 +190,7 @@ func GetAllSolicitudes() (v []interface{}, err error) {
 				return nil, err
 			}
 
-			var evolucionEstado SolicitudEvolucionEstado
+			var evolucionEstado []SolicitudEvolucionEstado
 			if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&evolucionEstado); err != nil {
 				return nil, err
 			}
@@ -231,7 +231,7 @@ func GetSolicitudesByPersona(persona int) (v []interface{}, err error) {
 				return nil, err
 			}
 
-			var evolucionEstado SolicitudEvolucionEstado
+			var evolucionEstado []SolicitudEvolucionEstado
 			if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&evolucionEstado); err != nil {
 				return nil, err
 			}
@@ -286,12 +286,12 @@ func GetSolicitudesByFiltros(tercero int, estadoTipo int)(v []interface{}, err e
 
 	orm.DebugLog = orm.NewLog(w)
 	fmt.Println("qs:", qs)
-	
+
 	if _, err := qs.All(&solicitudes); err == nil{
 		fmt.Println("solicitudes:", solicitudes)
 		for _, solicitud := range solicitudes {
 
-			
+
 			var solicitanteSolicitud []Solicitante
 			if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&solicitanteSolicitud); err != nil {
 				return nil, err

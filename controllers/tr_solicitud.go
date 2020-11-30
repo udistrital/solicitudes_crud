@@ -13,10 +13,12 @@ import (
 	"github.com/astaxie/beego/logs"
 )
 
+// TrSolicitudController ...
 type TrSolicitudController struct {
 	beego.Controller
 }
 
+// URLMapping ...
 func (c *TrSolicitudController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("GetAllByPersona", c.GetAllByPersona)
@@ -24,6 +26,7 @@ func (c *TrSolicitudController) URLMapping() {
 	c.Mapping("Put", c.Put)
 }
 
+// Post ...
 // @Title PostTrSolicitud
 // @Description create the TrSolicitud
 // @Param	body		body 	models.TrSolicitud	true	"body for TrSolicitud content"
@@ -33,11 +36,6 @@ func (c *TrSolicitudController) URLMapping() {
 func (c *TrSolicitudController) Post() {
 	var v models.TrSolicitud
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		
-		v.Solicitud.FechaCreacion = time_bogota.TiempoBogotaFormato()
-		v.Solicitud.FechaModificacion = time_bogota.TiempoBogotaFormato()
-		v.Solicitud.FechaRadicacion = time_bogota.TiempoCorreccionFormato(v.Solicitud.FechaRadicacion)
-		
 		if err := models.AddNuevaSolicitud(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = v
@@ -62,16 +60,16 @@ func (c *TrSolicitudController) Post() {
 // @Success 200 {object} models.TrSolicitud
 // @Failure 400 the request contains incorrect syntax
 // @router /:id [put]
-func (c *TrSolicitudController) Put(){
+func (c *TrSolicitudController) Put() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
 	var v models.TrSolicitud
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		
+
 		v.Solicitud.FechaCreacion = time_bogota.TiempoBogotaFormato()
 		v.Solicitud.FechaModificacion = time_bogota.TiempoBogotaFormato()
 		v.Solicitud.FechaRadicacion = time_bogota.TiempoCorreccionFormato(v.Solicitud.FechaRadicacion)
-		
+
 		v.Solicitud.Id = id
 		if err := models.UpdateSolicitud(&v); err == nil {
 			c.Data["json"] = v
@@ -143,7 +141,7 @@ func (c *TrSolicitudController) GetAllByPersona() {
 // @Failure 404 not found resource
 // @router /:tercero_id/:estado_tipo_id [get]
 func (c *TrSolicitudController) GetAllByFiltros(){
-	
+
 	idTerceroStr := c.Ctx.Input.Param(":tercero_id")
 	fmt.Println("idTerceroStr:", idTerceroStr)
 
