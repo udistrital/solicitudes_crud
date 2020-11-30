@@ -1918,18 +1918,18 @@
                 }
             }
         },
-        "/tr_solicitud_crear/": {
+        "/tr_solicitud/": {
             "get": {
                 "tags": [
-                    "tr_solicitud_crear"
+                    "tr_solicitud"
                 ],
-                "description": "get TrSolicitudCrearController",
-                "operationId": "TrSolicitudCrearController.Get All",
+                "description": "get TrSolicitudController",
+                "operationId": "TrSolicitudController.Get All",
                 "responses": {
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.TrSolicitudCrearController"
+                            "$ref": "#/definitions/models.TrSolicitudController"
                         }
                     },
                     "404": {
@@ -1939,24 +1939,24 @@
             },
             "post": {
                 "tags": [
-                    "tr_solicitud_crear"
+                    "tr_solicitud"
                 ],
-                "description": "create the TrSolicitudCrear",
-                "operationId": "TrSolicitudCrearController.PostTrSolicitudCrear",
+                "description": "create the TrSolicitud",
+                "operationId": "TrSolicitudController.PostTrSolicitud",
                 "parameters": [
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "body for TrSolicitudCrear content",
+                        "description": "body for TrSolicitud content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.TrSolicitudCrear"
+                            "$ref": "#/definitions/models.TrSolicitud"
                         }
                     }
                 ],
                 "responses": {
                     "201": {
-                        "description": "{int} models.TrSolicitudCrear"
+                        "description": "{int} models.TrSolicitud"
                     },
                     "400": {
                         "description": "the request contains incorrect syntax"
@@ -1964,13 +1964,51 @@
                 }
             }
         },
-        "/tr_solicitud_crear/{persona}": {
+        "/tr_solicitud/{id}": {
+            "put": {
+                "tags": [
+                    "tr_solicitud"
+                ],
+                "description": "update the TrSolicitud",
+                "operationId": "TrSolicitudController.Put",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for TrSolicitud content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TrSolicitud"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.TrSolicitud"
+                        }
+                    },
+                    "400": {
+                        "description": "the request contains incorrect syntax"
+                    }
+                }
+            }
+        },
+        "/tr_solicitud/{persona}": {
             "get": {
                 "tags": [
-                    "tr_solicitud_crear"
+                    "tr_solicitud"
                 ],
-                "description": "get TrSolicitudCrearController",
-                "operationId": "TrSolicitudCrearController.Get All By Persona",
+                "description": "get TrSolicitudController",
+                "operationId": "TrSolicitudController.Get All By Persona",
                 "parameters": [
                     {
                         "in": "path",
@@ -1984,7 +2022,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.TrSolicitudCrearController"
+                            "$ref": "#/definitions/models.TrSolicitudController"
                         }
                     },
                     "404": {
@@ -1995,12 +2033,16 @@
         }
     },
     "definitions": {
-        "51599.\u003cnil\u003e.Solicitante": {
+        "49906.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "51632.\u003cnil\u003e.Observacion": {
+        "49938.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
+            "type": "object"
+        },
+        "49972.\u003cnil\u003e.SolicitudEvolucionEstado": {
+            "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
         "models.Estado": {
@@ -2338,26 +2380,26 @@
                 }
             }
         },
-        "models.TrSolicitudCrear": {
-            "title": "TrSolicitudCrear",
+        "models.TrSolicitud": {
+            "title": "TrSolicitud",
             "type": "object",
             "properties": {
-                "EvolucionEstado": {
-                    "$ref": "#/definitions/models.SolicitudEvolucionEstado"
+                "EvolucionesEstado": {
+                    "$ref": "#/definitions/49972.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/51632.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/49938.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/51599.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/49906.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"
                 }
             }
         },
-        "models.TrSolicitudCrearController": {
-            "title": "TrSolicitudCrearController",
+        "models.TrSolicitudController": {
+            "title": "TrSolicitudController",
             "type": "object"
         }
     },
