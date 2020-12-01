@@ -1,11 +1,12 @@
 package main
 
 import (
+	"fmt"
+
 	_ "github.com/udistrital/solicitudes_crud/routers"
 	apistatus "github.com/udistrital/utils_oas/apiStatusLib"
 
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/plugins/cors"
 	_ "github.com/lib/pq"
@@ -20,6 +21,7 @@ func init() {
 		beego.AppConfig.String("PGport")+"/"+
 		beego.AppConfig.String("PGdb")+"?sslmode=disable&search_path="+
 		beego.AppConfig.String("PGschema")+"")
+	fmt.Println("postgres://" + beego.AppConfig.String("PGuser") + ":" + beego.AppConfig.String("PGpass") + "@" + beego.AppConfig.String("PGurls") + "/" + beego.AppConfig.String("PGdb") + "?sslmode=disable&search_path=" + beego.AppConfig.String("PGschema") + "")
 }
 
 func main() {
@@ -41,11 +43,6 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
-
-	logPath := "{\"filename\":\""
-	logPath += beego.AppConfig.String("logPath")
-	logPath += "\"}"
-	logs.SetLogger(logs.AdapterFile, logPath)
 
 	apistatus.Init()
 	beego.ErrorController(&customerrorv2.CustomErrorController{})
