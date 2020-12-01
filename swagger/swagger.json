@@ -2033,15 +2033,15 @@
         }
     },
     "definitions": {
-        "49906.\u003cnil\u003e.Solicitante": {
+        "51646.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "49938.\u003cnil\u003e.Observacion": {
+        "51681.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "49972.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "51716.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2385,13 +2385,13 @@
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/49972.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/51716.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/49938.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/51681.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/49906.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/51646.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"
@@ -2447,6 +2447,10 @@
         {
             "name": "solicitud",
             "description": "SolicitudController operations for Solicitud\n"
+        },
+        {
+            "name": "tr_solicitud",
+            "description": "TrSolicitudController ...\n"
         }
     ]
 }
