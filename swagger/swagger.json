@@ -2033,15 +2033,15 @@
         }
     },
     "definitions": {
-        "51646.\u003cnil\u003e.Solicitante": {
+        "51708.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "51681.\u003cnil\u003e.Observacion": {
+        "51743.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "51716.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "51778.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2136,6 +2136,9 @@
                 },
                 "TipoObservacionId": {
                     "$ref": "#/definitions/models.TipoObservacion"
+                },
+                "Titulo": {
+                    "type": "string"
                 },
                 "Valor": {
                     "type": "string"
@@ -2385,13 +2388,13 @@
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/51716.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/51778.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/51681.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/51743.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/51646.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/51708.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"

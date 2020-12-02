@@ -91,9 +91,7 @@ func UpdateSolicitud(m *TrSolicitud) (err error) {
 						evolucionEstado.FechaLimite = v.FechaLimite
 					}
 
-					evolucionEstado.FechaModificacion = time_bogota.TiempoBogotaFormato()
-
-					if evolucionEstado.Id != 0 {
+					if v.Id != 0 {
 						if _, errTr = o.Update(&evolucionEstado, "TerceroId", "EstadoTipoSolicitudIdAnterior", "EstadoTipoSolicitudId", "FechaLimite", "FechaModificacion"); errTr != nil {
 							err = errTr
 							fmt.Println(err)
@@ -101,9 +99,8 @@ func UpdateSolicitud(m *TrSolicitud) (err error) {
 							return
 						}
 					} else {
-						evolucionEstado.SolicitudId = m.Solicitud
-						evolucionEstado.FechaCreacion = time_bogota.TiempoBogotaFormato()
-						if _, errTr = o.Insert(&evolucionEstado); errTr != nil {
+						v.SolicitudId = m.Solicitud
+						if _, errTr = o.Insert(&v); errTr != nil {
 							err = errTr
 							fmt.Println(err)
 							_ = o.Rollback()
@@ -133,10 +130,8 @@ func UpdateSolicitud(m *TrSolicitud) (err error) {
 					if observacion.Valor != v.Valor {
 						observacion.Valor = v.Valor
 					}
-
-					observacion.FechaModificacion = time_bogota.TiempoBogotaFormato()
-
-					if observacion.Id != 0 {
+					if v.Id != 0 {
+						observacion.FechaModificacion = time_bogota.TiempoBogotaFormato()
 						if _, errTr = o.Update(&observacion, "TipoObservacionId", "TerceroId", "Valor", "FechaModificacion"); errTr != nil {
 							err = errTr
 							fmt.Println(err)
@@ -144,9 +139,8 @@ func UpdateSolicitud(m *TrSolicitud) (err error) {
 							return
 						}
 					} else {
-						observacion.SolicitudId = m.Solicitud
-						observacion.FechaCreacion = time_bogota.TiempoBogotaFormato()
-						if _, errTr = o.Insert(&observacion); errTr != nil {
+						v.SolicitudId = m.Solicitud
+						if _, errTr = o.Insert(&v); errTr != nil {
 							err = errTr
 							fmt.Println(err)
 							_ = o.Rollback()

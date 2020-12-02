@@ -2,12 +2,12 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 
 	// "strconv"
 
 	"github.com/udistrital/solicitudes_crud/models"
-	"github.com/udistrital/utils_oas/time_bogota"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
@@ -62,14 +62,10 @@ func (c *TrSolicitudController) Post() {
 // @router /:id [put]
 func (c *TrSolicitudController) Put() {
 	idStr := c.Ctx.Input.Param(":id")
+	fmt.Println("Id es: " + idStr)
 	id, _ := strconv.Atoi(idStr)
 	var v models.TrSolicitud
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-
-		v.Solicitud.FechaCreacion = time_bogota.TiempoBogotaFormato()
-		v.Solicitud.FechaModificacion = time_bogota.TiempoBogotaFormato()
-		v.Solicitud.FechaRadicacion = time_bogota.TiempoCorreccionFormato(v.Solicitud.FechaRadicacion)
-
 		v.Solicitud.Id = id
 		if err := models.UpdateSolicitud(&v); err == nil {
 			c.Data["json"] = v
