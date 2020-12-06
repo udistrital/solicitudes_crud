@@ -116,42 +116,44 @@ func UpdateSolicitud(m *TrSolicitud) (err error) {
 			}
 
 			for _, v := range *m.Observaciones {
-				var observacion Observacion
-				if errTr = o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", m.Solicitud.Id).One(&observacion); err == nil {
+				if v.Activo {
+					var observacion Observacion
+					if errTr = o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", m.Solicitud.Id).One(&observacion); err == nil {
 
-					if observacion.TipoObservacionId != v.TipoObservacionId {
-						observacion.TipoObservacionId = v.TipoObservacionId
-					}
+						if observacion.TipoObservacionId != v.TipoObservacionId {
+							observacion.TipoObservacionId = v.TipoObservacionId
+						}
 
-					if observacion.TerceroId != v.TerceroId {
-						observacion.TerceroId = v.TerceroId
-					}
+						if observacion.TerceroId != v.TerceroId {
+							observacion.TerceroId = v.TerceroId
+						}
 
-					if observacion.Valor != v.Valor {
-						observacion.Valor = v.Valor
-					}
-					if v.Id != 0 {
-						observacion.FechaModificacion = time_bogota.TiempoBogotaFormato()
-						if _, errTr = o.Update(&observacion, "TipoObservacionId", "TerceroId", "Valor", "FechaModificacion"); errTr != nil {
-							err = errTr
-							fmt.Println(err)
-							_ = o.Rollback()
-							return
+						if observacion.Valor != v.Valor {
+							observacion.Valor = v.Valor
+						}
+						if v.Id != 0 {
+							observacion.FechaModificacion = time_bogota.TiempoBogotaFormato()
+							if _, errTr = o.Update(&observacion, "TipoObservacionId", "TerceroId", "Valor", "FechaModificacion"); errTr != nil {
+								err = errTr
+								fmt.Println(err)
+								_ = o.Rollback()
+								return
+							}
+						} else {
+							v.SolicitudId = m.Solicitud
+							if _, errTr = o.Insert(&v); errTr != nil {
+								err = errTr
+								fmt.Println(err)
+								_ = o.Rollback()
+								return
+							}
 						}
 					} else {
-						v.SolicitudId = m.Solicitud
-						if _, errTr = o.Insert(&v); errTr != nil {
-							err = errTr
-							fmt.Println(err)
-							_ = o.Rollback()
-							return
-						}
+						err = errTr
+						fmt.Println(err)
+						_ = o.Rollback()
+						return
 					}
-				} else {
-					err = errTr
-					fmt.Println(err)
-					_ = o.Rollback()
-					return
 				}
 			}
 
