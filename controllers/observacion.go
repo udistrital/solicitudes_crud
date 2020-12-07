@@ -37,10 +37,10 @@ func (c *ObservacionController) URLMapping() {
 func (c *ObservacionController) Post() {
 	var v models.Observacion
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		
+
 		v.FechaCreacion = time_bogota.TiempoBogotaFormato()
 		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
-		
+
 		if _, err := models.AddObservacion(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "201", "Message": "Registration successful", "Data": v}
@@ -135,13 +135,13 @@ func (c *ObservacionController) GetAll() {
 	l, err := models.GetAllObservacion(query, fields, sortby, order, offset, limit)
 	if err != nil {
 		logs.Error(err)
-		c.Data["mesaage"] = "Error service GetAll: The request contains an incorrect parameter or no record exists"
+		c.Data["system"] = err
 		c.Abort("404")
 	} else {
 		if l == nil {
 			l = append(l, map[string]interface{}{})
 		}
-		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": l}
+		c.Data["json"] = l
 	}
 	c.ServeJSON()
 }
@@ -159,10 +159,10 @@ func (c *ObservacionController) Put() {
 	id, _ := strconv.Atoi(idStr)
 	v := models.Observacion{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-				
+
 		v.FechaCreacion = time_bogota.TiempoCorreccionFormato(v.FechaCreacion)
 		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
-		
+
 		if err := models.UpdateObservacionById(&v); err == nil {
 			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Update successful", "Data": v}
 		} else {

@@ -1,0 +1,1 @@
+ALTER TABLE solicitud.observacion ADD titulo varchar(100) NULL
