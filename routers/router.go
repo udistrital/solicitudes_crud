@@ -82,9 +82,9 @@ func init() {
 			),
 		),
 
-		beego.NSNamespace("/tr_solicitud_crear",
+		beego.NSNamespace("/tr_solicitud",
 			beego.NSInclude(
-				&controllers.TrSolicitudCrearController{},
+				&controllers.TrSolicitudController{},
 			),
 		),
 	)
