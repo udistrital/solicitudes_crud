@@ -15,6 +15,7 @@ El api proveé los métodos para la gestión de solicitudes.
 SOLICITUD_CRUD_HTTP_PORT=[Puerto de exposición del API]
 SOLICITUD_CRUD_RUN_MODE=[Modo de ejecución del API]
 # paramametros de bd
+
 SOLICITUD_CRUD_PGUSER=[Usuario de BD]
 SOLICITUD_CRUD_PGPASS=[Contraseña del usaurio de BD]
 SOLICITUD_CRUD_PGHOST=[URL, Dominio o EndPoint de la BD]

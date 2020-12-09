@@ -7,6 +7,7 @@ import (
 
 func init() {
 
+
 	beego.GlobalControllerRouter["github.com/udistrital/solicitudes_crud/controllers:EstadoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/solicitudes_crud/controllers:EstadoController"],
 		beego.ControllerComments{
 			Method:           "Post",
@@ -537,5 +538,6 @@ func init() {
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})
+
 
 }
