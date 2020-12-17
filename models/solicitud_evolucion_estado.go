@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
 	// "time"
 
 	"github.com/astaxie/beego/orm"
@@ -54,7 +55,7 @@ func GetSolicitudEvolucionEstadoById(id int) (v *SolicitudEvolucionEstado, err e
 func GetAllSolicitudEvolucionEstado(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(SolicitudEvolucionEstado))
+	qs := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
