@@ -87,6 +87,12 @@ func init() {
 				&controllers.TrSolicitudController{},
 			),
 		),
+
+		beego.NSNamespace("/tr_paquete",
+			beego.NSInclude(
+				&controllers.TrPaqueteController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }
