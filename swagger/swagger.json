@@ -1918,6 +1918,90 @@
                 }
             }
         },
+        "/tr_paquete/": {
+            "get": {
+                "tags": [
+                    "tr_paquete"
+                ],
+                "description": "get TrPaqueteController",
+                "operationId": "TrPaqueteController.Get All",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.TrPaqueteController"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "tr_paquete"
+                ],
+                "description": "create the TrPaquete",
+                "operationId": "TrPaqueteController.PostTrPaquete",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for TrPaquete content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TrPaquete"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{int} models.TrPaquete"
+                    },
+                    "400": {
+                        "description": "the request contains incorrect syntax"
+                    }
+                }
+            }
+        },
+        "/tr_paquete/{id}": {
+            "put": {
+                "tags": [
+                    "tr_paquete"
+                ],
+                "description": "update the TrPaquete",
+                "operationId": "TrPaqueteController.Put",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for TrPaquete content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TrPaquete"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.TrPaquete"
+                        }
+                    },
+                    "400": {
+                        "description": "the request contains incorrect syntax"
+                    }
+                }
+            }
+        },
         "/tr_solicitud/": {
             "get": {
                 "tags": [
@@ -2033,15 +2117,19 @@
         }
     },
     "definitions": {
-        "51708.\u003cnil\u003e.Solicitante": {
+        "49991.\u003cnil\u003e.TrSolicitudPaquete": {
+            "title": "TrSolicitudPaquete",
+            "type": "object"
+        },
+        "58606.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "51743.\u003cnil\u003e.Observacion": {
+        "58640.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "51778.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "58674.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2383,18 +2471,34 @@
                 }
             }
         },
+        "models.TrPaquete": {
+            "title": "TrPaquete",
+            "type": "object",
+            "properties": {
+                "Paquete": {
+                    "$ref": "#/definitions/models.Paquete"
+                },
+                "SolicitudesPaquete": {
+                    "$ref": "#/definitions/49991.\u003cnil\u003e.TrSolicitudPaquete"
+                }
+            }
+        },
+        "models.TrPaqueteController": {
+            "title": "TrPaqueteController",
+            "type": "object"
+        },
         "models.TrSolicitud": {
             "title": "TrSolicitud",
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/51778.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/58674.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/51743.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/58640.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/51708.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/58606.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"
@@ -2454,6 +2558,10 @@
         {
             "name": "tr_solicitud",
             "description": "TrSolicitudController ...\n"
+        },
+        {
+            "name": "tr_paquete",
+            "description": "TrPaqueteController ...\n"
         }
     ]
 }
