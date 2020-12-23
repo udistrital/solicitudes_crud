@@ -4,7 +4,6 @@ solicitudes_crud
 solicitudes_crud.exe
 main
 .scannerwork/
-routers/commentsRouter_controllers.go
 swagger/*.png
 swagger/*.html
 swagger/*.js
