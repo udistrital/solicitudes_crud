@@ -43,6 +43,17 @@ func AddNuevoPaquete(m *TrPaquete) (err error){
 				return
 			}
 
+			v.PaqueteSolicitud.SolicitudId.FechaCreacion = time_bogota.TiempoBogotaFormato()
+			v.PaqueteSolicitud.SolicitudId.FechaModificacion = time_bogota.TiempoBogotaFormato()
+			v.PaqueteSolicitud.SolicitudId.FechaRadicacion = time_bogota.TiempoBogotaFormato()
+
+			if _, errTr = o.Update(v.PaqueteSolicitud.SolicitudId, "EstadoTipoSolicitudId", "Referencia", "Resultado", "FechaRadicacion", "FechaModificacion"); errTr != nil {
+				err = errTr
+				fmt.Println(err)
+				_ = o.Rollback()
+				return
+			}
+
 			for _, v2 := range *v.EvolucionesEstado {
 				var evolucionEstado SolicitudEvolucionEstado
 				if errTr = o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", v.PaqueteSolicitud.SolicitudId.Id).One(&evolucionEstado); err == nil {
