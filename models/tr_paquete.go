@@ -296,8 +296,10 @@ func GetAllPaquetes() (v []interface{}, err error) {
 	if _, err := o.QueryTable(new(Paquete)).RelatedSel().Filter("Activo", true).All(&paquetes); err == nil {
 		for _, paquete := range paquetes {
 			v = append(v, map[string]interface{}{
-				"Id":     paquete.Id,
-				"Nombre": paquete.Nombre,
+				"Id":           paquete.Id,
+				"Nombre":       paquete.Nombre,
+				"NumeroComite": paquete.NumeroComite,
+				"FechaComite":  paquete.FechaComite,
 			})
 		}
 		return v, nil
