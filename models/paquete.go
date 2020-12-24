@@ -16,6 +16,8 @@ type Paquete struct {
 	FechaCreacion     string    `orm:"column(fecha_creacion);type(timestamp without time zone)"`
 	FechaModificacion string    `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 	Activo            bool      `orm:"column(activo)"`
+	NumeroComite      string    `orm:"column(numero_comite)"`
+	FechaComite       string    `orm:"column(fecha_comite)"`
 }
 
 func (t *Paquete) TableName() string {
