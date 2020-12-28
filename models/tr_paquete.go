@@ -7,11 +7,13 @@ import (
 	"github.com/udistrital/utils_oas/time_bogota"
 )
 
+//TrPaquete is...
 type TrPaquete struct {
 	Paquete            *Paquete
 	SolicitudesPaquete *[]TrSolicitudPaquete
 }
 
+//TrSolicitudPaquete is...
 type TrSolicitudPaquete struct {
 	PaqueteSolicitud *PaqueteSolicitud
 	//EstadoSolicitudPaquete *EstadoTipoSolicitud
@@ -19,6 +21,7 @@ type TrSolicitudPaquete struct {
 	EvolucionesEstado *[]SolicitudEvolucionEstado
 }
 
+//AddNuevoPaquete is...
 func AddNuevoPaquete(m *TrPaquete) (err error) {
 	o := orm.NewOrm()
 	err = o.Begin()
@@ -159,6 +162,7 @@ func AddNuevoPaquete(m *TrPaquete) (err error) {
 	return
 }
 
+// UpdatePaquete is...
 func UpdatePaquete(m *TrPaquete) (err error) {
 	o := orm.NewOrm()
 	err = o.Begin()
@@ -289,18 +293,24 @@ func UpdatePaquete(m *TrPaquete) (err error) {
 	return
 }
 
+// GetAllPaquetes is ...
 func GetAllPaquetes() (v []interface{}, err error) {
 	o := orm.NewOrm()
 
 	var paquetes []*Paquete
-	if _, err := o.QueryTable(new(Paquete)).RelatedSel().Filter("Activo", true).All(&paquetes); err == nil {
+	if _, err := o.QueryTable(new(Paquete)).RelatedSel().All(&paquetes); err == nil {
 		for _, paquete := range paquetes {
-			v = append(v, map[string]interface{}{
-				"Id":           paquete.Id,
-				"Nombre":       paquete.Nombre,
-				"NumeroComite": paquete.NumeroComite,
-				"FechaComite":  paquete.FechaComite,
-			})
+			var paqueteSolicitudes []*PaqueteSolicitud
+			if _, errS := o.QueryTable(new(PaqueteSolicitud)).Filter("PaqueteId", paquete.Id).All(&paqueteSolicitudes); errS == nil {
+				v = append(v, map[string]interface{}{
+					"Id":           paquete.Id,
+					"Nombre":       paquete.Nombre,
+					"NumeroComite": paquete.NumeroComite,
+					"FechaComite":  paquete.FechaComite,
+					"Activo":       paquete.Activo,
+					"Solicitudes":  len(paqueteSolicitudes),
+				})
+			}
 		}
 		return v, nil
 	}
