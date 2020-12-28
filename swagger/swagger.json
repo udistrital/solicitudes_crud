@@ -2117,19 +2117,19 @@
         }
     },
     "definitions": {
-        "49983.\u003cnil\u003e.TrSolicitudPaquete": {
+        "50100.\u003cnil\u003e.TrSolicitudPaquete": {
             "title": "TrSolicitudPaquete",
             "type": "object"
         },
-        "59193.\u003cnil\u003e.Solicitante": {
+        "62487.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "59227.\u003cnil\u003e.Observacion": {
+        "62521.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "59261.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "62555.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2240,6 +2240,9 @@
                 "Activo": {
                     "type": "boolean"
                 },
+                "FechaComite": {
+                    "type": "string"
+                },
                 "FechaCreacion": {
                     "type": "string"
                 },
@@ -2251,6 +2254,9 @@
                     "format": "int64"
                 },
                 "Nombre": {
+                    "type": "string"
+                },
+                "NumeroComite": {
                     "type": "string"
                 }
             }
@@ -2479,7 +2485,7 @@
                     "$ref": "#/definitions/models.Paquete"
                 },
                 "SolicitudesPaquete": {
-                    "$ref": "#/definitions/49983.\u003cnil\u003e.TrSolicitudPaquete"
+                    "$ref": "#/definitions/50100.\u003cnil\u003e.TrSolicitudPaquete"
                 }
             }
         },
@@ -2492,13 +2498,13 @@
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/59261.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/62555.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/59227.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/62521.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/59193.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/62487.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"
