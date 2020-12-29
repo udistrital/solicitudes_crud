@@ -22,13 +22,15 @@ func AddNuevaSolicitud(m *TrSolicitud) (err error) {
 
 		fmt.Println(idSolicitud)
 
-		for _, v := range *m.Solicitantes {
-			v.SolicitudId.Id = int(idSolicitud)
-			if _, errTr = o.Insert(&v); errTr != nil {
-				err = errTr
-				fmt.Println(err)
-				_ = o.Rollback()
-				return
+		if *m.Solicitantes != nil {
+			for _, v := range *m.Solicitantes {
+				v.SolicitudId.Id = int(idSolicitud)
+				if _, errTr = o.Insert(&v); errTr != nil {
+					err = errTr
+					fmt.Println(err)
+					_ = o.Rollback()
+					return
+				}
 			}
 		}
 
