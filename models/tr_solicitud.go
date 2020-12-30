@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/udistrital/utils_oas/formatdata"
 	"github.com/udistrital/utils_oas/time_bogota"
 )
 
@@ -18,8 +17,6 @@ type TrSolicitud struct {
 func AddNuevaSolicitud(m *TrSolicitud) (err error) {
 	o := orm.NewOrm()
 	err = o.Begin()
-	formatdata.JsonPrint(m)
-
 	if idSolicitud, errTr := o.Insert(m.Solicitud); errTr == nil {
 
 		fmt.Println(idSolicitud)
