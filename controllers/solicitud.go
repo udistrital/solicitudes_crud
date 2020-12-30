@@ -6,6 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	"net/url"
+
 	"github.com/udistrital/solicitudes_crud/models"
 	"github.com/udistrital/utils_oas/time_bogota"
 
@@ -25,6 +27,7 @@ func (c *SolicitudController) URLMapping() {
 	c.Mapping("GetAll", c.GetAll)
 	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
+	c.Mapping("GetSolicitudesEvaluaciones", c.GetSolicitudesEvaluaciones)
 }
 
 // Post ...
@@ -197,6 +200,30 @@ func (c *SolicitudController) Delete() {
 		logs.Error(err)
 		c.Data["mesaage"] = "Error service Delete: Request contains incorrect parameter"
 		c.Abort("404")
+	}
+	c.ServeJSON()
+}
+
+// GetOne ...
+// @Title Get solicitudes to evaluate
+// @Description get Solicitud by correo
+// @Param	correo		path 	string	true		"The email to search"
+// @Success 200 {object} models.Solicitud
+// @Failure 404 not found resource
+// @router /:correo [get]
+func (c *SolicitudController) GetSolicitudesEvaluaciones() {
+	correoStr := c.Ctx.Input.Param(":correo")
+	correo, _:= url.QueryUnescape(correoStr)
+	l, err := models.GetSolicitudesEvaluaciones(correo)
+	if err != nil {
+		logs.Error(err)
+		c.Data["system"] = err
+		c.Abort("404")
+	} else {
+		if l == nil {
+			l = append(l, map[string]interface{}{})
+		}
+		c.Data["json"] = l
 	}
 	c.ServeJSON()
 }

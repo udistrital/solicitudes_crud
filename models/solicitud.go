@@ -157,3 +157,63 @@ func DeleteSolicitud(id int) (err error) {
 	}
 	return
 }
+
+
+func GetSolicitudesEvaluaciones(correo string)(ml []interface{}, err error){
+	fmt.Println("GetSolicitudesEvaluaciones")
+	fmt.Println("correo: ", correo)
+
+	var l []Solicitud
+	o := orm.NewOrm()
+	
+	num, err := o.Raw(`SELECT 
+							sol.* 
+						FROM solicitud.solicitud sol
+						INNER JOIN solicitud.estado_tipo_solicitud ets
+							ON sol.estado_tipo_solicitud_id = ets.id
+						INNER JOIN solicitud.solicitud solHija
+							ON sol.id = solHija.solicitud_padre_id
+						INNER JOIN solicitud.estado_tipo_solicitud etsHija
+							ON solHija.estado_tipo_solicitud_id = etsHija.id
+						WHERE ets.tipo_solicitud_id = 1
+						AND etsHija.tipo_solicitud_id = 2
+						AND solHija.referencia->>'Correo' = ?`, correo).QueryRows(&l)
+	if err == nil {
+		fmt.Println("num sols: ", num)
+		for _, v := range l {
+			var estadoTipoSolicitud EstadoTipoSolicitud
+			if _, err := o.QueryTable(new(EstadoTipoSolicitud)).RelatedSel().Filter("Id", v.EstadoTipoSolicitudId).All(&estadoTipoSolicitud); err != nil {
+					return nil, err
+				}
+
+			// var solicitanteSolicitud []Solicitante
+			// if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&solicitanteSolicitud); err != nil {
+			// 	return nil, err
+			// }
+
+			// var evolucionEstado []SolicitudEvolucionEstado
+			// if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&evolucionEstado); err != nil {
+			// 	return nil, err
+			// }
+
+			// var observaciones []Observacion
+			// if _, err := o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&observaciones); err != nil {
+			// 	return nil, err
+			// }
+
+			ml = append(ml, map[string]interface{}{
+				"Id":                    v.Id,
+				"EstadoTipoSolicitudId": estadoTipoSolicitud,
+				"Referencia":            v.Referencia,
+				"Resultado":             v.Resultado,
+				"FechaRadicacion":       v.FechaRadicacion,
+				// "EvolucionEstado":       &evolucionEstado,
+				// "Solicitantes":          &solicitanteSolicitud,
+				// "Observaciones":         &observaciones,
+			})
+		}
+		return ml, nil
+	}
+
+	return nil, err
+}
