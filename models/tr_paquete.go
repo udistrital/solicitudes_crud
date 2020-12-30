@@ -30,7 +30,7 @@ func AddNuevoPaquete(m *TrPaquete) (err error) {
 	m.Paquete.FechaCreacion = time_bogota.TiempoBogotaFormato()
 	m.Paquete.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	//fin
-	
+
 	m.Paquete.FechaComite = time_bogota.TiempoBogotaFormato()
 	if idPaquete, errTr := o.Insert(m.Paquete); errTr == nil {
 
@@ -55,7 +55,7 @@ func AddNuevoPaquete(m *TrPaquete) (err error) {
 			v.PaqueteSolicitud.SolicitudId.FechaRadicacion = time_bogota.TiempoBogotaFormato()
 			v.PaqueteSolicitud.SolicitudId.FechaCreacion = time_bogota.TiempoBogotaFormato()
 			//fin
-			
+
 			v.PaqueteSolicitud.SolicitudId.FechaModificacion = time_bogota.TiempoBogotaFormato()
 			fmt.Println("actualizando solicitud en paquete")
 			if _, errTr = o.Update(v.PaqueteSolicitud.SolicitudId, "EstadoTipoSolicitudId", "Referencia", "Resultado", "FechaModificacion"); errTr != nil {
@@ -193,7 +193,8 @@ func UpdatePaquete(m *TrPaquete) (err error) {
 
 		// fechas que se pueden comentar
 		m.Paquete.FechaCreacion = time_bogota.TiempoBogotaFormato()
-		m.Paquete.FechaComite = time_bogota.TiempoBogotaFormato()
+		m.Paquete.FechaModificacion = time_bogota.TiempoBogotaFormato()
+		// m.Paquete.FechaComite = time_bogota.TiempoBogotaFormato()
 		// fin
 
 		m.Paquete.FechaModificacion = time_bogota.TiempoBogotaFormato()
@@ -204,7 +205,7 @@ func UpdatePaquete(m *TrPaquete) (err error) {
 				fmt.Println("procesando solicitud en paquete")
 				var paqueteSolicitud PaqueteSolicitud
 				if errTr = o.QueryTable(new(PaqueteSolicitud)).RelatedSel().Filter("Id", v2.PaqueteSolicitud.Id).One(&paqueteSolicitud); err == nil {
-					
+
 					if paqueteSolicitud.EstadoTipoSolicitudId != v2.PaqueteSolicitud.EstadoTipoSolicitudId {
 						paqueteSolicitud.EstadoTipoSolicitudId = v2.PaqueteSolicitud.EstadoTipoSolicitudId
 					}
@@ -235,7 +236,7 @@ func UpdatePaquete(m *TrPaquete) (err error) {
 						}
 					}
 				}
-				
+
 				// fechas que se pueden comentar
 				v2.PaqueteSolicitud.SolicitudId.FechaCreacion = time_bogota.TiempoBogotaFormato()
 				v2.PaqueteSolicitud.SolicitudId.FechaRadicacion = time_bogota.TiempoBogotaFormato()
@@ -252,58 +253,59 @@ func UpdatePaquete(m *TrPaquete) (err error) {
 
 				fmt.Println("procesando estado")
 				for _, v3 := range *v2.EvolucionesEstado {
-					var evolucionEstado SolicitudEvolucionEstado
-					if errTr = o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", v2.PaqueteSolicitud.SolicitudId.Id).One(&evolucionEstado); err == nil {
+					if v3.Activo {
+						var evolucionEstado SolicitudEvolucionEstado
+						if errTr = o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", v2.PaqueteSolicitud.SolicitudId.Id).One(&evolucionEstado); err == nil {
 
-						if evolucionEstado.TerceroId != v3.TerceroId {
-							evolucionEstado.TerceroId = v3.TerceroId
-						}
+							if evolucionEstado.TerceroId != v3.TerceroId {
+								evolucionEstado.TerceroId = v3.TerceroId
+							}
 
-						if evolucionEstado.EstadoTipoSolicitudIdAnterior != v3.EstadoTipoSolicitudIdAnterior {
-							evolucionEstado.EstadoTipoSolicitudIdAnterior = v3.EstadoTipoSolicitudIdAnterior
-						}
+							if evolucionEstado.EstadoTipoSolicitudIdAnterior != v3.EstadoTipoSolicitudIdAnterior {
+								evolucionEstado.EstadoTipoSolicitudIdAnterior = v3.EstadoTipoSolicitudIdAnterior
+							}
 
-						if evolucionEstado.EstadoTipoSolicitudId != v3.EstadoTipoSolicitudId {
-							evolucionEstado.EstadoTipoSolicitudId = v3.EstadoTipoSolicitudId
-						}
+							if evolucionEstado.EstadoTipoSolicitudId != v3.EstadoTipoSolicitudId {
+								evolucionEstado.EstadoTipoSolicitudId = v3.EstadoTipoSolicitudId
+							}
 
-						
-						// fechas que se pueden comentar
-						v3.FechaLimite = time_bogota.TiempoBogotaFormato()
-						evolucionEstado.FechaCreacion = time_bogota.TiempoBogotaFormato()
-						evolucionEstado.FechaLimite = time_bogota.TiempoBogotaFormato()
-						//fin
+							// fechas que se pueden comentar
+							// v3.FechaLimite = time_bogota.TiempoBogotaFormato()
+							evolucionEstado.FechaCreacion = time_bogota.TiempoBogotaFormato()
+							// evolucionEstado.FechaLimite = time_bogota.TiempoBogotaFormato()
+							//fin
 
-						if evolucionEstado.FechaLimite != v3.FechaLimite {
-							evolucionEstado.FechaLimite = v3.FechaLimite
-						}
+							if evolucionEstado.FechaLimite != v3.FechaLimite {
+								evolucionEstado.FechaLimite = v3.FechaLimite
+							}
 
-						if v3.Id != 0 {
-							evolucionEstado.FechaModificacion = time_bogota.TiempoBogotaFormato()
-							fmt.Println("actualizando estado[] solicitud en paquete")
-							if _, errTr = o.Update(&evolucionEstado, "TerceroId", "EstadoTipoSolicitudIdAnterior", "EstadoTipoSolicitudId", "FechaLimite", "FechaModificacion"); errTr != nil {
-								err = errTr
-								fmt.Println(err)
-								_ = o.Rollback()
-								return
+							if v3.Id != 0 {
+								evolucionEstado.FechaModificacion = time_bogota.TiempoBogotaFormato()
+								fmt.Println("actualizando estado[] solicitud en paquete")
+								if _, errTr = o.Update(&evolucionEstado, "TerceroId", "EstadoTipoSolicitudIdAnterior", "EstadoTipoSolicitudId", "FechaLimite", "FechaModificacion"); errTr != nil {
+									err = errTr
+									fmt.Println(err)
+									_ = o.Rollback()
+									return
+								}
+							} else {
+								v3.FechaCreacion = time_bogota.TiempoBogotaFormato()
+								v3.FechaModificacion = time_bogota.TiempoBogotaFormato()
+								v3.SolicitudId = v2.PaqueteSolicitud.SolicitudId
+								fmt.Println("insertando estado[] solicitud en paquete")
+								if _, errTr = o.Insert(&v3); errTr != nil {
+									err = errTr
+									fmt.Println(err)
+									_ = o.Rollback()
+									return
+								}
 							}
 						} else {
-							v3.FechaCreacion = time_bogota.TiempoBogotaFormato()
-							v3.FechaModificacion = time_bogota.TiempoBogotaFormato()
-							v3.SolicitudId = v2.PaqueteSolicitud.SolicitudId
-							fmt.Println("insertando estado[] solicitud en paquete")
-							if _, errTr = o.Insert(&v3); errTr != nil {
-								err = errTr
-								fmt.Println(err)
-								_ = o.Rollback()
-								return
-							}
+							err = errTr
+							fmt.Println(err)
+							_ = o.Rollback()
+							return
 						}
-					} else {
-						err = errTr
-						fmt.Println(err)
-						_ = o.Rollback()
-						return
 					}
 				}
 
