@@ -2117,19 +2117,19 @@
         }
     },
     "definitions": {
-        "50118.\u003cnil\u003e.TrSolicitudPaquete": {
+        "51872.\u003cnil\u003e.TrSolicitudPaquete": {
             "title": "TrSolicitudPaquete",
             "type": "object"
         },
-        "62846.\u003cnil\u003e.Solicitante": {
+        "65169.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "62880.\u003cnil\u003e.Observacion": {
+        "65204.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "62914.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "65239.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2485,7 +2485,7 @@
                     "$ref": "#/definitions/models.Paquete"
                 },
                 "SolicitudesPaquete": {
-                    "$ref": "#/definitions/50118.\u003cnil\u003e.TrSolicitudPaquete"
+                    "$ref": "#/definitions/51872.\u003cnil\u003e.TrSolicitudPaquete"
                 }
             }
         },
@@ -2498,13 +2498,13 @@
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/62914.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/65239.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/62880.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/65204.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/62846.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/65169.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"
