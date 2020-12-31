@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/astaxie/beego/orm"
 	"github.com/udistrital/utils_oas/time_bogota"
@@ -173,140 +174,111 @@ func UpdateSolicitud(m *TrSolicitud) (err error) {
 }
 
 // GetAllSolicitudes Transacción para consultar todas las producciones con toda la información de las mismas
-func GetAllSolicitudes() (v []interface{}, err error) {
+func GetAllSolicitudes() (ml []interface{}, err error) {
+
+	fmt.Println("GetAllSolicitudes")
+
+	var l []Solicitud
 	o := orm.NewOrm()
-	var solicitantes []*Solicitante
-	if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Activo", true).All(&solicitantes); err == nil {
-		for _, solicitante := range solicitantes {
-
-			solicitud := solicitante.SolicitudId
-
-			var solicitanteSolicitud []Solicitante
-			if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&solicitanteSolicitud); err != nil {
+	
+	num, err := o.Raw(`SELECT 
+							sol.* 
+						FROM solicitud.solicitud sol
+						INNER JOIN solicitud.estado_tipo_solicitud ets
+							ON sol.estado_tipo_solicitud_id = ets.id
+						WHERE ets.tipo_solicitud_id = 1`).QueryRows(&l)
+	if err == nil {
+		fmt.Println("num sols: ", num)
+		for _, v := range l {
+			var estadoTipoSolicitud EstadoTipoSolicitud
+			if _, err := o.QueryTable(new(EstadoTipoSolicitud)).RelatedSel().Filter("Id", v.EstadoTipoSolicitudId).All(&estadoTipoSolicitud); err != nil {
 				return nil, err
 			}
-
-			var evolucionEstado []SolicitudEvolucionEstado
-			if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&evolucionEstado); err != nil {
-				return nil, err
-			}
-
-			var observaciones []Observacion
-			if _, err := o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&observaciones); err != nil {
-				return nil, err
-			}
-
-			v = append(v, map[string]interface{}{
-				"Id":                    solicitud.Id,
-				"EstadoTipoSolicitudId": solicitud.EstadoTipoSolicitudId,
-				"Referencia":            solicitud.Referencia,
-				"Resultado":             solicitud.Resultado,
-				"FechaRadicacion":       solicitud.FechaRadicacion,
-				"EvolucionEstado":       &evolucionEstado,
-				"Solicitantes":          &solicitanteSolicitud,
-				"Observaciones":         &observaciones,
-			})
-		}
-
-		return v, nil
-	}
-	return nil, err
-}
-
-// GetSolicitudesByPersona Transacción para consultar todas las solicitudes con toda la información de las mismas
-func GetSolicitudesByPersona(persona int) (v []interface{}, err error) {
-	o := orm.NewOrm()
-	var solicitantes []*Solicitante
-	if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("tercero_id", persona).Filter("SolicitudId__Activo", true).All(&solicitantes); err == nil {
-		for _, solicitante := range solicitantes {
-
-			solicitud := solicitante.SolicitudId
-
+			
 			var solicitantesSolicitud []Solicitante
-			if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&solicitantesSolicitud); err != nil {
+			if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&solicitantesSolicitud); err != nil {
 				return nil, err
 			}
 
 			var evolucionEstado []SolicitudEvolucionEstado
-			if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&evolucionEstado); err != nil {
+			if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&evolucionEstado); err != nil {
 				return nil, err
 			}
 
 			var observaciones []Observacion
-			if _, err := o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&observaciones); err != nil {
+			if _, err := o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&observaciones); err != nil {
 				return nil, err
 			}
 
-			v = append(v, map[string]interface{}{
-				"Id":                    solicitud.Id,
-				"EstadoTipoSolicitudId": solicitud.EstadoTipoSolicitudId,
-				"Referencia":            solicitud.Referencia,
-				"Resultado":             solicitud.Resultado,
-				"FechaRadicacion":       solicitud.FechaRadicacion,
+			ml = append(ml, map[string]interface{}{
+				"Id":                    v.Id,
+				"EstadoTipoSolicitudId": estadoTipoSolicitud,
+				"Referencia":            v.Referencia,
+				"Resultado":             v.Resultado,
+				"FechaRadicacion":       v.FechaRadicacion,
 				"EvolucionEstado":       &evolucionEstado,
 				"Solicitantes":          &solicitantesSolicitud,
 				"Observaciones":         &observaciones,
 			})
 		}
-
-		return v, nil
+		return ml, nil
 	}
+
 	return nil, err
 }
 
-/*
-func GetSolicitudesByFiltros(tercero int, estadoTipo int)(v []interface{}, err error){
+// GetSolicitudesByPersona Transacción para consultar todas las solicitudes con toda la información de las mismas
+func GetSolicitudesByPersona(persona int) (ml []interface{}, err error) {
+	fmt.Println("GetSolicitudesByPersona: ", strconv.Itoa(persona))
 
-	orm.Debug = true
-	var w io.Writer
-
+	var l []Solicitud
 	o := orm.NewOrm()
-	var solicitudes []*Solicitud
-
-	fmt.Println("tercero:", tercero)
-	fmt.Println("estadoTipo:", estadoTipo)
-
-	var qs orm.QuerySeter
-
-	qs = o.QueryTable(new(Solicitud))
-	qs = qs.Filter("Activo", true)
-
-	if (estadoTipo > 0){
-		qs = qs.Filter("estado_tipo_solicitud_id", estadoTipo)
-	}
-
-	if (tercero > 0){
-		qs = qs.RelatedSel(new(Solicitante))
-		qs = qs.Filter("Solicitante__tercero_id", tercero)
-	}
-
-	orm.DebugLog = orm.NewLog(w)
-	fmt.Println("qs:", qs)
-
-	if _, err := qs.All(&solicitudes); err == nil{
-		fmt.Println("solicitudes:", solicitudes)
-		for _, solicitud := range solicitudes {
-
-
-			var solicitanteSolicitud []Solicitante
-			if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", solicitud.Id).All(&solicitanteSolicitud); err != nil {
+	
+	num, err := o.Raw(`SELECT 
+							sol.*
+						FROM solicitud.solicitud sol
+						INNER JOIN solicitud.estado_tipo_solicitud ets
+							ON sol.estado_tipo_solicitud_id = ets.id
+						INNER JOIN solicitud.solicitante sol2
+							ON sol.id = sol2.solicitud_id
+						WHERE ets.tipo_solicitud_id = 1
+						AND sol2.tercero_id = ?`, persona).QueryRows(&l)
+	if err == nil {
+		fmt.Println("num sols: ", num)
+		for _, v := range l {
+			var estadoTipoSolicitud EstadoTipoSolicitud
+			if _, err := o.QueryTable(new(EstadoTipoSolicitud)).RelatedSel().Filter("Id", v.EstadoTipoSolicitudId).All(&estadoTipoSolicitud); err != nil {
+				return nil, err
+			}
+			
+			var solicitantesSolicitud []Solicitante
+			if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&solicitantesSolicitud); err != nil {
 				return nil, err
 			}
 
-			v = append(v, map[string]interface{}{
-				"Id":                    solicitud.Id,
-				"EstadoTipoSolicitudId": solicitud.EstadoTipoSolicitudId,
-				"Referencia":            solicitud.Referencia,
-				"Resultado":             solicitud.Resultado,
-				"FechaRadicacion":       solicitud.FechaRadicacion,
-				// "EvolucionEstado":       &evolucionEstado,
-				"Solicitantes":          &solicitanteSolicitud,
-				// "Observaciones":         &observaciones,
-			})
+			var evolucionEstado []SolicitudEvolucionEstado
+			if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&evolucionEstado); err != nil {
+				return nil, err
+			}
 
+			var observaciones []Observacion
+			if _, err := o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&observaciones); err != nil {
+				return nil, err
+			}
+
+			ml = append(ml, map[string]interface{}{
+				"Id":                    v.Id,
+				"EstadoTipoSolicitudId": estadoTipoSolicitud,
+				"Referencia":            v.Referencia,
+				"Resultado":             v.Resultado,
+				"FechaRadicacion":       v.FechaRadicacion,
+				"EvolucionEstado":       &evolucionEstado,
+				"Solicitantes":          &solicitantesSolicitud,
+				"Observaciones":         &observaciones,
+			})
 		}
-		return v, nil
+		return ml, nil
 	}
+
 	return nil, err
 }
-*/

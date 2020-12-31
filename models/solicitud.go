@@ -167,15 +167,11 @@ func GetSolicitudesEvaluaciones(correo string)(ml []interface{}, err error){
 	o := orm.NewOrm()
 	
 	num, err := o.Raw(`SELECT 
-							sol.* 
-						FROM solicitud.solicitud sol
-						INNER JOIN solicitud.estado_tipo_solicitud ets
-							ON sol.estado_tipo_solicitud_id = ets.id
-						INNER JOIN solicitud.solicitud solHija
-							ON sol.id = solHija.solicitud_padre_id
+							solHija.* 
+						FROM solicitud.solicitud solHija
 						INNER JOIN solicitud.estado_tipo_solicitud etsHija
 							ON solHija.estado_tipo_solicitud_id = etsHija.id
-						WHERE ets.tipo_solicitud_id = 1
+						WHERE solHija.estado_tipo_solicitud_id IS NOT NULL
 						AND etsHija.tipo_solicitud_id = 2
 						AND solHija.referencia->>'Correo' = ?`, correo).QueryRows(&l)
 	if err == nil {
@@ -183,8 +179,13 @@ func GetSolicitudesEvaluaciones(correo string)(ml []interface{}, err error){
 		for _, v := range l {
 			var estadoTipoSolicitud EstadoTipoSolicitud
 			if _, err := o.QueryTable(new(EstadoTipoSolicitud)).RelatedSel().Filter("Id", v.EstadoTipoSolicitudId).All(&estadoTipoSolicitud); err != nil {
-					return nil, err
-				}
+				return nil, err
+			}
+			
+			var solicitudPadre Solicitud
+			if _, err := o.QueryTable(new(Solicitud)).RelatedSel().Filter("Id", v.SolicitudPadreId).All(&solicitudPadre); err != nil {
+				return nil, err
+			}
 
 			// var solicitanteSolicitud []Solicitante
 			// if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&solicitanteSolicitud); err != nil {
@@ -202,11 +203,11 @@ func GetSolicitudesEvaluaciones(correo string)(ml []interface{}, err error){
 			// }
 
 			ml = append(ml, map[string]interface{}{
-				"Id":                    v.Id,
+				"Id":                    solicitudPadre.Id,
 				"EstadoTipoSolicitudId": estadoTipoSolicitud,
-				"Referencia":            v.Referencia,
-				"Resultado":             v.Resultado,
-				"FechaRadicacion":       v.FechaRadicacion,
+				"Referencia":            solicitudPadre.Referencia,
+				// "Resultado":             solicitudPadre.Resultado,
+				"FechaRadicacion":       solicitudPadre.FechaRadicacion,
 				// "EvolucionEstado":       &evolucionEstado,
 				// "Solicitantes":          &solicitanteSolicitud,
 				// "Observaciones":         &observaciones,
