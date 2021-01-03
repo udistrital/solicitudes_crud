@@ -158,14 +158,13 @@ func DeleteSolicitud(id int) (err error) {
 	return
 }
 
-
-func GetSolicitudesEvaluaciones(correo string)(ml []interface{}, err error){
+func GetSolicitudesEvaluaciones(correo string) (ml []interface{}, err error) {
 	fmt.Println("GetSolicitudesEvaluaciones")
 	fmt.Println("correo: ", correo)
 
 	var l []Solicitud
 	o := orm.NewOrm()
-	
+
 	num, err := o.Raw(`SELECT 
 							solHija.* 
 						FROM solicitud.solicitud solHija
@@ -181,21 +180,21 @@ func GetSolicitudesEvaluaciones(correo string)(ml []interface{}, err error){
 			if _, err := o.QueryTable(new(EstadoTipoSolicitud)).RelatedSel().Filter("Id", v.EstadoTipoSolicitudId).All(&estadoTipoSolicitud); err != nil {
 				return nil, err
 			}
-			
+
 			var solicitudPadre Solicitud
 			if _, err := o.QueryTable(new(Solicitud)).RelatedSel().Filter("Id", v.SolicitudPadreId).All(&solicitudPadre); err != nil {
 				return nil, err
 			}
 
-			// var solicitanteSolicitud []Solicitante
-			// if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&solicitanteSolicitud); err != nil {
-			// 	return nil, err
-			// }
+			var solicitanteSolicitud []Solicitante
+			if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&solicitanteSolicitud); err != nil {
+				return nil, err
+			}
 
-			// var evolucionEstado []SolicitudEvolucionEstado
-			// if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&evolucionEstado); err != nil {
-			// 	return nil, err
-			// }
+			var evolucionEstado []SolicitudEvolucionEstado
+			if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&evolucionEstado); err != nil {
+				return nil, err
+			}
 
 			// var observaciones []Observacion
 			// if _, err := o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&observaciones); err != nil {
@@ -203,13 +202,14 @@ func GetSolicitudesEvaluaciones(correo string)(ml []interface{}, err error){
 			// }
 
 			ml = append(ml, map[string]interface{}{
-				"Id":                    solicitudPadre.Id,
+				"Id":                    v.Id,
 				"EstadoTipoSolicitudId": estadoTipoSolicitud,
-				"Referencia":            solicitudPadre.Referencia,
+				"Referencia":            v.Referencia,
 				// "Resultado":             solicitudPadre.Resultado,
-				"FechaRadicacion":       solicitudPadre.FechaRadicacion,
-				// "EvolucionEstado":       &evolucionEstado,
-				// "Solicitantes":          &solicitanteSolicitud,
+				"FechaRadicacion":  v.FechaRadicacion,
+				"SolicitudPadreId": solicitudPadre,
+				"EvolucionEstado":  &evolucionEstado,
+				"Solicitantes":     &solicitanteSolicitud,
 				// "Observaciones":         &observaciones,
 			})
 		}
