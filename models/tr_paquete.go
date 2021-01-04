@@ -269,7 +269,7 @@ func UpdatePaquete(m *TrPaquete) (err error) {
 
 							// fechas que se pueden comentar
 							// v3.FechaLimite = time_bogota.TiempoBogotaFormato()
-							evolucionEstado.FechaCreacion = time_bogota.TiempoBogotaFormato()
+							// evolucionEstado.FechaCreacion = time_bogota.TiempoBogotaFormato()
 							// evolucionEstado.FechaLimite = time_bogota.TiempoBogotaFormato()
 							//fin
 

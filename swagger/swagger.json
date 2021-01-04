@@ -1137,6 +1137,35 @@
                 }
             }
         },
+        "/solicitud/{correo}": {
+            "get": {
+                "tags": [
+                    "solicitud"
+                ],
+                "description": "get Solicitud by correo",
+                "operationId": "SolicitudController.Get solicitudes to evaluate",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "correo",
+                        "description": "The email to search",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Solicitud"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            }
+        },
         "/solicitud/{id}": {
             "get": {
                 "tags": [
@@ -2096,7 +2125,7 @@
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "id",
+                        "name": "persona",
                         "description": "Persona",
                         "required": true,
                         "type": "string"
@@ -2117,19 +2146,19 @@
         }
     },
     "definitions": {
-        "51872.\u003cnil\u003e.TrSolicitudPaquete": {
+        "54085.\u003cnil\u003e.TrSolicitudPaquete": {
             "title": "TrSolicitudPaquete",
             "type": "object"
         },
-        "65124.\u003cnil\u003e.Solicitante": {
+        "67303.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "65159.\u003cnil\u003e.Observacion": {
+        "67338.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "65194.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "67373.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2485,7 +2514,7 @@
                     "$ref": "#/definitions/models.Paquete"
                 },
                 "SolicitudesPaquete": {
-                    "$ref": "#/definitions/51872.\u003cnil\u003e.TrSolicitudPaquete"
+                    "$ref": "#/definitions/54085.\u003cnil\u003e.TrSolicitudPaquete"
                 }
             }
         },
@@ -2498,13 +2527,13 @@
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/65194.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/67373.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/65159.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/67338.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/65124.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/67303.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"

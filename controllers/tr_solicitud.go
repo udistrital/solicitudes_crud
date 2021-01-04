@@ -106,7 +106,7 @@ func (c *TrSolicitudController) GetAll() {
 // GetAllByPersona ...
 // @Title Get All By Persona
 // @Description get TrSolicitudController
-// @Param	id		path 	string	true		"Persona"
+// @Param	persona		path 	string	true		"Persona"
 // @Success 200 {object} models.TrSolicitudController
 // @Failure 404 not found resource
 // @router /:persona [get]
