@@ -2248,15 +2248,15 @@
             "title": "TrSolicitudPaquete",
             "type": "object"
         },
-        "67390.\u003cnil\u003e.Solicitante": {
+        "67413.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "67425.\u003cnil\u003e.Observacion": {
+        "67448.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "67460.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "67483.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2628,13 +2628,13 @@
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/67460.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/67483.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/67425.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/67448.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/67390.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/67413.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"
