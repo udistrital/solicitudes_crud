@@ -22,6 +22,11 @@ type TrSolicitudController struct {
 func (c *TrSolicitudController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("GetAllByPersona", c.GetAllByPersona)
+	c.Mapping("GetAllByPersonaActive", c.GetAllByPersonaActive)
+	c.Mapping("GetAllByPersonaInactive", c.GetAllByPersonaInactive)
+	c.Mapping("GetAll", c.GetAll)
+	c.Mapping("GetAllActive", c.GetAllActive)
+	c.Mapping("GetAllInactive", c.GetAllInactive)
 	// c.Mapping("Delete", c.Delete)
 	c.Mapping("Put", c.Put)
 }
@@ -127,27 +132,14 @@ func (c *TrSolicitudController) GetAllByPersona() {
 	c.ServeJSON()
 }
 
-/*
-// GetAllByFiltros ...
-// @Title Get All By Filtros
-// @Description get TrSolicitudController
-// @Param	tercero_id		path 	string	true		"Tercero"
-// @Param	estado_tipo_id		path 	string	true		"EstadoTipo"
+// GetAllActive ...
+// @Title Get All
+// @Description get TrSolicitudController for active request
 // @Success 200 {object} models.TrSolicitudController
 // @Failure 404 not found resource
-// @router /:tercero_id/:estado_tipo_id [get]
-func (c *TrSolicitudController) GetAllByFiltros(){
-
-	idTerceroStr := c.Ctx.Input.Param(":tercero_id")
-	fmt.Println("idTerceroStr:", idTerceroStr)
-
-	idTercero, _ := strconv.Atoi(idTerceroStr)
-	fmt.Println("idTercero:", idTercero)
-
-	idEstadoTipoStr := c.Ctx.Input.Param(":estado_tipo_id")
-	idEstadoTipo, _ := strconv.Atoi(idEstadoTipoStr)
-
-	l, err := models.GetSolicitudesByFiltros(idTercero, idEstadoTipo)
+// @router /active/ [get]
+func (c *TrSolicitudController) GetAllActive() {
+	l, err := models.GetAllSolicitudesWithFilter(false)
 	if err != nil {
 		logs.Error(err)
 		c.Data["system"] = err
@@ -160,4 +152,72 @@ func (c *TrSolicitudController) GetAllByFiltros(){
 	}
 	c.ServeJSON()
 }
-*/
+
+// GetAllByPersonaActive ...
+// @Title Get All By Persona
+// @Description get TrSolicitudController
+// @Param	persona		path 	string	true		"Persona"
+// @Success 200 {object} models.TrSolicitudController
+// @Failure 404 not found resource
+// @router /active/:persona [get]
+func (c *TrSolicitudController) GetAllByPersonaActive() {
+	idPersonaStr := c.Ctx.Input.Param(":persona")
+	idPersona, _ := strconv.Atoi(idPersonaStr)
+	l, err := models.GetSolicitudesByPersonaWithFilter(false, idPersona)
+	if err != nil {
+		logs.Error(err)
+		c.Data["system"] = err
+		c.Abort("404")
+	} else {
+		if l == nil {
+			l = append(l, map[string]interface{}{})
+		}
+		c.Data["json"] = l
+	}
+	c.ServeJSON()
+}
+
+// GetAllInactive ...
+// @Title Get All
+// @Description get TrSolicitudController for active request
+// @Success 200 {object} models.TrSolicitudController
+// @Failure 404 not found resource
+// @router /inactive/ [get]
+func (c *TrSolicitudController) GetAllInactive() {
+	l, err := models.GetAllSolicitudesWithFilter(true)
+	if err != nil {
+		logs.Error(err)
+		c.Data["system"] = err
+		c.Abort("404")
+	} else {
+		if l == nil {
+			l = append(l, map[string]interface{}{})
+		}
+		c.Data["json"] = l
+	}
+	c.ServeJSON()
+}
+
+// GetAllByPersonaInactive ...
+// @Title Get All By Persona
+// @Description get TrSolicitudController
+// @Param	persona		path 	string	true		"Persona"
+// @Success 200 {object} models.TrSolicitudController
+// @Failure 404 not found resource
+// @router /inactive/:persona [get]
+func (c *TrSolicitudController) GetAllByPersonaInactive() {
+	idPersonaStr := c.Ctx.Input.Param(":persona")
+	idPersona, _ := strconv.Atoi(idPersonaStr)
+	l, err := models.GetSolicitudesByPersonaWithFilter(true, idPersona)
+	if err != nil {
+		logs.Error(err)
+		c.Data["system"] = err
+		c.Abort("404")
+	} else {
+		if l == nil {
+			l = append(l, map[string]interface{}{})
+		}
+		c.Data["json"] = l
+	}
+	c.ServeJSON()
+}

@@ -1,0 +1,1 @@
+ALTER TABLE solicitud.solicitud ADD solicitud_finalizada boolean NULL DEFAULT false

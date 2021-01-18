@@ -19,6 +19,7 @@ type Solicitud struct {
 	FechaRadicacion       string               `orm:"column(fecha_radicacion);type(timestamp without time zone);null"`
 	FechaCreacion         string               `orm:"column(fecha_creacion);type(timestamp without time zone)"`
 	FechaModificacion     string               `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	SolicitudFinalizada   bool                 `orm:"column(solicitud_finalizada);null"`
 	Activo                bool                 `orm:"column(activo)"`
 	SolicitudPadreId      *Solicitud           `orm:"column(solicitud_padre_id);rel(fk);null"`
 }
