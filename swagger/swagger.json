@@ -2077,6 +2077,104 @@
                 }
             }
         },
+        "/tr_solicitud/active/": {
+            "get": {
+                "tags": [
+                    "tr_solicitud"
+                ],
+                "description": "get TrSolicitudController for active request",
+                "operationId": "TrSolicitudController.Get All",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.TrSolicitudController"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            }
+        },
+        "/tr_solicitud/active/{persona}": {
+            "get": {
+                "tags": [
+                    "tr_solicitud"
+                ],
+                "description": "get TrSolicitudController",
+                "operationId": "TrSolicitudController.Get All By Persona",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "persona",
+                        "description": "Persona",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.TrSolicitudController"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            }
+        },
+        "/tr_solicitud/inactive/": {
+            "get": {
+                "tags": [
+                    "tr_solicitud"
+                ],
+                "description": "get TrSolicitudController for active request",
+                "operationId": "TrSolicitudController.Get All",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.TrSolicitudController"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            }
+        },
+        "/tr_solicitud/inactive/{persona}": {
+            "get": {
+                "tags": [
+                    "tr_solicitud"
+                ],
+                "description": "get TrSolicitudController",
+                "operationId": "TrSolicitudController.Get All By Persona",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "persona",
+                        "description": "Persona",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.TrSolicitudController"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            }
+        },
         "/tr_solicitud/{id}": {
             "put": {
                 "tags": [
@@ -2146,19 +2244,19 @@
         }
     },
     "definitions": {
-        "54085.\u003cnil\u003e.TrSolicitudPaquete": {
+        "54172.\u003cnil\u003e.TrSolicitudPaquete": {
             "title": "TrSolicitudPaquete",
             "type": "object"
         },
-        "67303.\u003cnil\u003e.Solicitante": {
+        "67390.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "67338.\u003cnil\u003e.Observacion": {
+        "67425.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "67373.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "67460.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2373,6 +2471,9 @@
                 "Resultado": {
                     "type": "string"
                 },
+                "SolicitudFinalizada": {
+                    "type": "boolean"
+                },
                 "SolicitudPadreId": {
                     "$ref": "#/definitions/models.Solicitud"
                 }
@@ -2514,7 +2615,7 @@
                     "$ref": "#/definitions/models.Paquete"
                 },
                 "SolicitudesPaquete": {
-                    "$ref": "#/definitions/54085.\u003cnil\u003e.TrSolicitudPaquete"
+                    "$ref": "#/definitions/54172.\u003cnil\u003e.TrSolicitudPaquete"
                 }
             }
         },
@@ -2527,13 +2628,13 @@
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/67373.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/67460.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/67338.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/67425.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/67303.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/67390.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"
