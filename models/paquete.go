@@ -5,19 +5,21 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
 	// "time"
 
 	"github.com/astaxie/beego/orm"
 )
 
 type Paquete struct {
-	Id                int       `orm:"column(id);pk;auto"`
-	Nombre            string    `orm:"column(nombre)"`
-	FechaCreacion     string    `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion string    `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
-	Activo            bool      `orm:"column(activo)"`
-	NumeroComite      string    `orm:"column(numero_comite)"`
-	FechaComite       string    `orm:"column(fecha_comite)"`
+	Id                int    `orm:"column(id);pk;auto"`
+	Nombre            string `orm:"column(nombre)"`
+	FechaCreacion     string `orm:"column(fecha_creacion);type(timestamp without time zone)"`
+	FechaModificacion string `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	Activo            bool   `orm:"column(activo)"`
+	PaqueteRevisado   bool   `orm:"column(paquete_revisado);null"`
+	NumeroComite      string `orm:"column(numero_comite)"`
+	FechaComite       string `orm:"column(fecha_comite)"`
 }
 
 func (t *Paquete) TableName() string {
