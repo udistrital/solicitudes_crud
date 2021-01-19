@@ -242,7 +242,7 @@ func UpdatePaquete(m *TrPaquete) (err error) {
 
 				v2.PaqueteSolicitud.SolicitudId.FechaModificacion = time_bogota.TiempoBogotaFormato()
 				fmt.Println("actualizando solicitud en paquete")
-				if _, errTr = o.Update(v2.PaqueteSolicitud.SolicitudId, "EstadoTipoSolicitudId", "Referencia", "Resultado", "FechaModificacion"); errTr != nil {
+				if _, errTr = o.Update(v2.PaqueteSolicitud.SolicitudId, "EstadoTipoSolicitudId", "Referencia", "Resultado", "SolicitudFinalizada", "FechaModificacion"); errTr != nil {
 					err = errTr
 					fmt.Println(err)
 					_ = o.Rollback()
