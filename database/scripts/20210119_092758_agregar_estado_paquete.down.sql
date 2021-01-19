@@ -1,0 +1,1 @@
+ALTER TABLE solicitud.paquete DROP COLUMN IF EXISTS paquete_revisado

@@ -197,7 +197,7 @@ func UpdatePaquete(m *TrPaquete) (err error) {
 		m.Paquete.FechaModificacion = time_bogota.TiempoBogotaFormato()
 		m.Paquete.FechaComite = time_bogota.TiempoCorreccionFormato(m.Paquete.FechaComite)
 		// fin
-		if num, errTr = o.Update(m.Paquete, "Nombre", "NumeroComite", "FechaComite", "FechaModificacion"); errTr == nil {
+		if num, errTr = o.Update(m.Paquete, "Nombre", "NumeroComite", "FechaComite", "PaqueteRevisado", "FechaModificacion"); errTr == nil {
 			fmt.Println("Number of records updated in database:", num)
 			for _, v2 := range *m.SolicitudesPaquete {
 				fmt.Println("procesando solicitud en paquete")
@@ -378,12 +378,12 @@ func GetAllPaquetes() (v []interface{}, err error) {
 			var paqueteSolicitudes []*PaqueteSolicitud
 			if _, errS := o.QueryTable(new(PaqueteSolicitud)).Filter("PaqueteId", paquete.Id).All(&paqueteSolicitudes); errS == nil {
 				v = append(v, map[string]interface{}{
-					"Id":           paquete.Id,
-					"Nombre":       paquete.Nombre,
-					"NumeroComite": paquete.NumeroComite,
-					"FechaComite":  paquete.FechaComite,
-					"Activo":       paquete.Activo,
-					"Solicitudes":  len(paqueteSolicitudes),
+					"Id":              paquete.Id,
+					"Nombre":          paquete.Nombre,
+					"NumeroComite":    paquete.NumeroComite,
+					"FechaComite":     paquete.FechaComite,
+					"PaqueteRevisado": paquete.PaqueteRevisado,
+					"Solicitudes":     len(paqueteSolicitudes),
 				})
 			}
 		}

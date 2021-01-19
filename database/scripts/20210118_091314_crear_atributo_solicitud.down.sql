@@ -1,1 +1,1 @@
-ALTER TABLE solicitud.solicitud DROP COLUMN IF EXISTS titulo
+ALTER TABLE solicitud.solicitud DROP COLUMN IF EXISTS solicitud_finalizada
