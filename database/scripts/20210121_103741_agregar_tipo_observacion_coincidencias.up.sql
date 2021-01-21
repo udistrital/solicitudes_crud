@@ -1,0 +1,1 @@
+INSERT INTO solicitud.tipo_observacion(id, nombre, descripcion, codigo_abreviacion, numero_orden, fecha_creacion, fecha_modificacion, activo)VALUES (4, 'Alerta coincidencias', 'Indica que la solicitud pudo haber sido realizada anteriormente por otro docente', 'altcon', 4, now(), now(), true);
