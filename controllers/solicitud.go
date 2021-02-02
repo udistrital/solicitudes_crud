@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -204,22 +205,24 @@ func (c *SolicitudController) Delete() {
 	c.ServeJSON()
 }
 
-// GetOne ...
+// GetSolicitudesEvaluaciones ...
 // @Title Get solicitudes to evaluate
 // @Description get Solicitud by correo
 // @Param	correo		path 	string	true		"The email to search"
 // @Success 200 {object} models.Solicitud
 // @Failure 404 not found resource
-// @router /:correo [get]
+// @router /email/:correo [get]
 func (c *SolicitudController) GetSolicitudesEvaluaciones() {
+	// correoStr := strings.ReplaceAll(c.Ctx.Input.Param(":correo"), "}", "@")
 	correoStr := c.Ctx.Input.Param(":correo")
-	correo, _:= url.QueryUnescape(correoStr)
+	correo, _ := url.QueryUnescape(correoStr)
 	l, err := models.GetSolicitudesEvaluaciones(correo)
 	if err != nil {
 		logs.Error(err)
 		c.Data["system"] = err
 		c.Abort("404")
 	} else {
+		fmt.Println(err)
 		if l == nil {
 			l = append(l, map[string]interface{}{})
 		}
