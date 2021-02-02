@@ -205,29 +205,39 @@ func (c *SolicitudController) Delete() {
 	c.ServeJSON()
 }
 
+// Post ...
+// @Title Post
+// @Description create Solicitud
+// @Param	body		body 	models.Solicitud	true		"body for Solicitud content"
+// @Success 201 {int} models.Solicitud
+// @Failure 400 the request contains incorrect syntax
+// @router / [post]
+
 // GetSolicitudesEvaluaciones ...
 // @Title Get solicitudes to evaluate
 // @Description get Solicitud by correo
-// @Param	correo		path 	string	true		"The email to search"
+// @Param   body    body    {}  true        "body correo"
 // @Success 200 {object} models.Solicitud
 // @Failure 404 not found resource
-// @router /email/:correo [get]
+// @router /email/ [post]
 func (c *SolicitudController) GetSolicitudesEvaluaciones() {
-	correoStr := strings.ReplaceAll(c.Ctx.Input.Param(":correo"), "%7D", "@")
-	// correoStr := c.Ctx.Input.Param(":correo")
-	fmt.Println("Obteniendo solicitudes del correo: ", correoStr)
-	correo, _ := url.QueryUnescape(correoStr)
-	l, err := models.GetSolicitudesEvaluaciones(correo)
-	if err != nil {
-		fmt.Println(err)
-		logs.Error(err)
-		c.Data["system"] = err
-		c.Abort("404")
-	} else {
-		if l == nil {
-			l = append(l, map[string]interface{}{})
+	var v map[string]interface{}
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		correoStr := fmt.Sprintf("%v", v["Correo"])
+		fmt.Println("Obteniendo solicitudes del correo: ", correoStr)
+		correo, _ := url.QueryUnescape(correoStr)
+		l, err := models.GetSolicitudesEvaluaciones(correo)
+		if err != nil {
+			fmt.Println(err)
+			logs.Error(err)
+			c.Data["system"] = err
+			c.Abort("404")
+		} else {
+			if l == nil {
+				l = append(l, map[string]interface{}{})
+			}
+			c.Data["json"] = l
 		}
-		c.Data["json"] = l
+		c.ServeJSON()
 	}
-	c.ServeJSON()
 }

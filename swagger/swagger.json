@@ -1137,8 +1137,8 @@
                 }
             }
         },
-        "/solicitud/email/{correo}": {
-            "get": {
+        "/solicitud/email/": {
+            "post": {
                 "tags": [
                     "solicitud"
                 ],
@@ -1146,11 +1146,13 @@
                 "operationId": "SolicitudController.Get solicitudes to evaluate",
                 "parameters": [
                     {
-                        "in": "path",
-                        "name": "correo",
-                        "description": "The email to search",
+                        "in": "body",
+                        "name": "body",
+                        "description": "body correo",
                         "required": true,
-                        "type": "string"
+                        "schema": {
+                            "$ref": "#/definitions/{}"
+                        }
                     }
                 ],
                 "responses": {
@@ -2646,6 +2648,10 @@
         },
         "models.TrSolicitudController": {
             "title": "TrSolicitudController",
+            "type": "object"
+        },
+        "{}": {
+            "title": "{}",
             "type": "object"
         }
     },
