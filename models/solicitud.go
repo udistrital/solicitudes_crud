@@ -216,6 +216,6 @@ func GetSolicitudesEvaluaciones(correo string) (ml []interface{}, err error) {
 		}
 		return ml, nil
 	}
-
+	fmt.Println(err)
 	return nil, err
 }

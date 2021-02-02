@@ -1137,7 +1137,7 @@
                 }
             }
         },
-        "/solicitud/{correo}": {
+        "/solicitud/email/{correo}": {
             "get": {
                 "tags": [
                     "solicitud"
@@ -2244,19 +2244,19 @@
         }
     },
     "definitions": {
-        "54218.\u003cnil\u003e.TrSolicitudPaquete": {
+        "54235.\u003cnil\u003e.TrSolicitudPaquete": {
             "title": "TrSolicitudPaquete",
             "type": "object"
         },
-        "67505.\u003cnil\u003e.Solicitante": {
+        "67522.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "67540.\u003cnil\u003e.Observacion": {
+        "67557.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "67575.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "67592.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2618,7 +2618,7 @@
                     "$ref": "#/definitions/models.Paquete"
                 },
                 "SolicitudesPaquete": {
-                    "$ref": "#/definitions/54218.\u003cnil\u003e.TrSolicitudPaquete"
+                    "$ref": "#/definitions/54235.\u003cnil\u003e.TrSolicitudPaquete"
                 }
             }
         },
@@ -2631,13 +2631,13 @@
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/67575.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/67592.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/67540.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/67557.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/67505.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/67522.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"
