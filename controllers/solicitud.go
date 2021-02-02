@@ -213,16 +213,17 @@ func (c *SolicitudController) Delete() {
 // @Failure 404 not found resource
 // @router /email/:correo [get]
 func (c *SolicitudController) GetSolicitudesEvaluaciones() {
-	// correoStr := strings.ReplaceAll(c.Ctx.Input.Param(":correo"), "}", "@")
-	correoStr := c.Ctx.Input.Param(":correo")
+	correoStr := strings.ReplaceAll(c.Ctx.Input.Param(":correo"), "%7D", "@")
+	// correoStr := c.Ctx.Input.Param(":correo")
+	fmt.Println("Obteniendo solicitudes del correo: ", correoStr)
 	correo, _ := url.QueryUnescape(correoStr)
 	l, err := models.GetSolicitudesEvaluaciones(correo)
 	if err != nil {
+		fmt.Println(err)
 		logs.Error(err)
 		c.Data["system"] = err
 		c.Abort("404")
 	} else {
-		fmt.Println(err)
 		if l == nil {
 			l = append(l, map[string]interface{}{})
 		}
