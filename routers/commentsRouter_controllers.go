@@ -298,8 +298,8 @@ func init() {
 	beego.GlobalControllerRouter["github.com/udistrital/solicitudes_crud/controllers:SolicitudController"] = append(beego.GlobalControllerRouter["github.com/udistrital/solicitudes_crud/controllers:SolicitudController"],
 		beego.ControllerComments{
 			Method:           "GetSolicitudesEvaluaciones",
-			Router:           "/email/:correo",
-			AllowHTTPMethods: []string{"get"},
+			Router:           "/email",
+			AllowHTTPMethods: []string{"post"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})
