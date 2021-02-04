@@ -1,0 +1,1 @@
+ALTER TABLE solicitud.observacion DROP COLUMN IF EXISTS solicitud_finalizada

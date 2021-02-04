@@ -1,6 +1,7 @@
 lastupdate.tmp
 .vscode/
 solicitudes_crud
+solicitudes_crud.exe
 main
 .scannerwork/
 swagger/*.png
@@ -15,3 +16,4 @@ swagger/images/
 swagger/lang/
 swagger/lib/
 © 2020 GitHub, Inc.
+

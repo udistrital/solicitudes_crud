@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
 	// "time"
 
 	"github.com/astaxie/beego/orm"
@@ -15,6 +16,7 @@ type Observacion struct {
 	TipoObservacionId *TipoObservacion `orm:"column(tipo_observacion_id);rel(fk)"`
 	SolicitudId       *Solicitud       `orm:"column(solicitud_id);rel(fk)"`
 	TerceroId         int              `orm:"column(tercero_id)"`
+	Titulo            string           `orm:"column(titulo)"`
 	Valor             string           `orm:"column(valor)"`
 	FechaCreacion     string           `orm:"column(fecha_creacion);type(timestamp without time zone)"`
 	FechaModificacion string           `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
@@ -53,7 +55,7 @@ func GetObservacionById(id int) (v *Observacion, err error) {
 func GetAllObservacion(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Observacion))
+	qs := o.QueryTable(new(Observacion)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

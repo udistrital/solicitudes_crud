@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
 	// "time"
 
 	"github.com/astaxie/beego/orm"
@@ -14,7 +15,7 @@ type SolicitudEvolucionEstado struct {
 	Id                            int                  `orm:"column(id);pk;auto"`
 	TerceroId                     int                  `orm:"column(tercero_id)"`
 	SolicitudId                   *Solicitud           `orm:"column(solicitud_id);rel(fk)"`
-	EstadoTipoSolicitudIdAnterior *EstadoTipoSolicitud `orm:"column(estado_tipo_solicitud_id_anterior);rel(fk)"`
+	EstadoTipoSolicitudIdAnterior *EstadoTipoSolicitud `orm:"column(estado_tipo_solicitud_id_anterior);rel(fk);null"`
 	EstadoTipoSolicitudId         *EstadoTipoSolicitud `orm:"column(estado_tipo_solicitud_id);rel(fk)"`
 	FechaLimite                   string               `orm:"column(fecha_limite);type(timestamp without time zone);null"`
 	FechaCreacion                 string               `orm:"column(fecha_creacion);type(timestamp without time zone)"`
@@ -54,7 +55,7 @@ func GetSolicitudEvolucionEstadoById(id int) (v *SolicitudEvolucionEstado, err e
 func GetAllSolicitudEvolucionEstado(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(SolicitudEvolucionEstado))
+	qs := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

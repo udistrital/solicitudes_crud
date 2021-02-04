@@ -5,7 +5,6 @@ import (
 	apistatus "github.com/udistrital/utils_oas/apiStatusLib"
 
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/plugins/cors"
 	_ "github.com/lib/pq"
@@ -13,7 +12,13 @@ import (
 )
 
 func init() {
-	orm.RegisterDataBase("default", "postgres", "postgres://"+beego.AppConfig.String("PGuser")+":"+beego.AppConfig.String("PGpass")+"@"+beego.AppConfig.String("PGurls")+"/"+beego.AppConfig.String("PGdb")+"?sslmode=disable&search_path="+beego.AppConfig.String("PGschemas")+"")
+	orm.RegisterDataBase("default", "postgres", "postgres://"+
+		beego.AppConfig.String("PGuser")+":"+
+		beego.AppConfig.String("PGpass")+"@"+
+		beego.AppConfig.String("PGhost")+":"+
+		beego.AppConfig.String("PGport")+"/"+
+		beego.AppConfig.String("PGdb")+"?sslmode=disable&search_path="+
+		beego.AppConfig.String("PGschema")+"")
 }
 
 func main() {
@@ -36,14 +41,7 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	logPath := "{\"filename\":\""
-	logPath += beego.AppConfig.String("logPath")
-	logPath += "\"}"
-	logs.SetLogger(logs.AdapterFile, logPath)
-
 	apistatus.Init()
-
 	beego.ErrorController(&customerrorv2.CustomErrorController{})
 	beego.Run()
 }
-

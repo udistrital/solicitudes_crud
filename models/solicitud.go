@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
 	// "time"
 
 	"github.com/astaxie/beego/orm"
@@ -18,8 +19,9 @@ type Solicitud struct {
 	FechaRadicacion       string               `orm:"column(fecha_radicacion);type(timestamp without time zone);null"`
 	FechaCreacion         string               `orm:"column(fecha_creacion);type(timestamp without time zone)"`
 	FechaModificacion     string               `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	SolicitudFinalizada   bool                 `orm:"column(solicitud_finalizada);null"`
 	Activo                bool                 `orm:"column(activo)"`
-	SolicitudPadreId      *Solicitud           `orm:"column(solicitud_padre_id);rel(fk)"`
+	SolicitudPadreId      *Solicitud           `orm:"column(solicitud_padre_id);rel(fk);null"`
 }
 
 func (t *Solicitud) TableName() string {
@@ -54,7 +56,7 @@ func GetSolicitudById(id int) (v *Solicitud, err error) {
 func GetAllSolicitud(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Solicitud))
+	qs := o.QueryTable(new(Solicitud)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -155,4 +157,65 @@ func DeleteSolicitud(id int) (err error) {
 		}
 	}
 	return
+}
+
+func GetSolicitudesEvaluaciones(correo string) (ml []interface{}, err error) {
+	fmt.Println("GetSolicitudesEvaluaciones")
+	fmt.Println("correo: ", correo)
+
+	var l []Solicitud
+	o := orm.NewOrm()
+
+	num, err := o.Raw(`SELECT 
+							solHija.* 
+						FROM solicitud.solicitud solHija
+						INNER JOIN solicitud.estado_tipo_solicitud etsHija
+							ON solHija.estado_tipo_solicitud_id = etsHija.id
+						WHERE solHija.estado_tipo_solicitud_id IS NOT NULL
+						AND etsHija.tipo_solicitud_id = 2
+						AND solHija.referencia->>'Correo' = ?`, correo).QueryRows(&l)
+	if err == nil {
+		fmt.Println("num sols: ", num)
+		for _, v := range l {
+			var estadoTipoSolicitud EstadoTipoSolicitud
+			if _, err := o.QueryTable(new(EstadoTipoSolicitud)).RelatedSel().Filter("Id", v.EstadoTipoSolicitudId).All(&estadoTipoSolicitud); err != nil {
+				return nil, err
+			}
+
+			var solicitudPadre Solicitud
+			if _, err := o.QueryTable(new(Solicitud)).RelatedSel().Filter("Id", v.SolicitudPadreId).All(&solicitudPadre); err != nil {
+				return nil, err
+			}
+
+			var solicitanteSolicitud []Solicitante
+			if _, err := o.QueryTable(new(Solicitante)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&solicitanteSolicitud); err != nil {
+				return nil, err
+			}
+
+			var evolucionEstado []SolicitudEvolucionEstado
+			if _, err := o.QueryTable(new(SolicitudEvolucionEstado)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&evolucionEstado); err != nil {
+				return nil, err
+			}
+
+			// var observaciones []Observacion
+			// if _, err := o.QueryTable(new(Observacion)).RelatedSel().Filter("SolicitudId__Id", v.Id).All(&observaciones); err != nil {
+			// 	return nil, err
+			// }
+
+			ml = append(ml, map[string]interface{}{
+				"Id":                    v.Id,
+				"EstadoTipoSolicitudId": estadoTipoSolicitud,
+				"Referencia":            v.Referencia,
+				// "Resultado":             solicitudPadre.Resultado,
+				"FechaRadicacion":  v.FechaRadicacion,
+				"SolicitudPadreId": solicitudPadre,
+				"EvolucionEstado":  &evolucionEstado,
+				"Solicitantes":     &solicitanteSolicitud,
+				// "Observaciones":         &observaciones,
+			})
+		}
+		return ml, nil
+	}
+	fmt.Println(err)
+	return nil, err
 }

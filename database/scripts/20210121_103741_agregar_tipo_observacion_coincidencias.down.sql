@@ -1,0 +1,1 @@
+DELETE from solicitud.tipo_observacion WHERE id = 4;

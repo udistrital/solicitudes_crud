@@ -1,0 +1,1 @@
+ALTER TABLE solicitud.paquete ADD paquete_revisado boolean NULL DEFAULT false
