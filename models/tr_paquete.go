@@ -31,7 +31,7 @@ func AddNuevoPaquete(m *TrPaquete) (err error) {
 	m.Paquete.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	//fin
 
-	m.Paquete.FechaComite = time_bogota.TiempoBogotaFormato()
+	m.Paquete.FechaComite = time_bogota.TiempoCorreccionFormato(m.Paquete.FechaComite)
 	if idPaquete, errTr := o.Insert(m.Paquete); errTr == nil {
 
 		fmt.Println(idPaquete)
