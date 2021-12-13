@@ -2086,6 +2086,20 @@
                 ],
                 "description": "get TrSolicitudController for active request",
                 "operationId": "TrSolicitudController.Get All",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -2135,6 +2149,20 @@
                 ],
                 "description": "get TrSolicitudController for active request",
                 "operationId": "TrSolicitudController.Get All",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -2246,19 +2274,19 @@
         }
     },
     "definitions": {
-        "54235.\u003cnil\u003e.TrSolicitudPaquete": {
+        "52430.\u003cnil\u003e.TrSolicitudPaquete": {
             "title": "TrSolicitudPaquete",
             "type": "object"
         },
-        "67522.\u003cnil\u003e.Solicitante": {
+        "65349.\u003cnil\u003e.Solicitante": {
             "title": "Solicitante",
             "type": "object"
         },
-        "67557.\u003cnil\u003e.Observacion": {
+        "65383.\u003cnil\u003e.Observacion": {
             "title": "Observacion",
             "type": "object"
         },
-        "67592.\u003cnil\u003e.SolicitudEvolucionEstado": {
+        "65417.\u003cnil\u003e.SolicitudEvolucionEstado": {
             "title": "SolicitudEvolucionEstado",
             "type": "object"
         },
@@ -2620,7 +2648,7 @@
                     "$ref": "#/definitions/models.Paquete"
                 },
                 "SolicitudesPaquete": {
-                    "$ref": "#/definitions/54235.\u003cnil\u003e.TrSolicitudPaquete"
+                    "$ref": "#/definitions/52430.\u003cnil\u003e.TrSolicitudPaquete"
                 }
             }
         },
@@ -2633,13 +2661,13 @@
             "type": "object",
             "properties": {
                 "EvolucionesEstado": {
-                    "$ref": "#/definitions/67592.\u003cnil\u003e.SolicitudEvolucionEstado"
+                    "$ref": "#/definitions/65417.\u003cnil\u003e.SolicitudEvolucionEstado"
                 },
                 "Observaciones": {
-                    "$ref": "#/definitions/67557.\u003cnil\u003e.Observacion"
+                    "$ref": "#/definitions/65383.\u003cnil\u003e.Observacion"
                 },
                 "Solicitantes": {
-                    "$ref": "#/definitions/67522.\u003cnil\u003e.Solicitante"
+                    "$ref": "#/definitions/65349.\u003cnil\u003e.Solicitante"
                 },
                 "Solicitud": {
                     "$ref": "#/definitions/models.Solicitud"

@@ -284,19 +284,31 @@ func GetSolicitudesByPersona(persona int) (ml []interface{}, err error) {
 }
 
 // GetAllSolicitudesWithFilter Transacción para consultar todas las producciones con toda la información de las mismas
-func GetAllSolicitudesWithFilter(isFinish bool) (ml []interface{}, err error) {
+func GetAllSolicitudesWithFilter(isFinish bool, offset int64, limit int64) (ml []interface{}, err error) {
 
 	fmt.Println("GetAllSolicitudesWithFilter")
 
 	var l []Solicitud
+	var query string 
 	o := orm.NewOrm()
 
-	num, err := o.Raw(`SELECT 
-							sol.* 
-						FROM solicitud.solicitud sol
-						INNER JOIN solicitud.estado_tipo_solicitud ets
-							ON sol.estado_tipo_solicitud_id = ets.id
-						WHERE ets.tipo_solicitud_id = 1 AND sol.solicitud_finalizada = ?`, isFinish).QueryRows(&l)
+	if limit == 0 {
+		query = `SELECT sol.* 
+				 FROM solicitud.solicitud sol
+				 INNER JOIN solicitud.estado_tipo_solicitud ets
+					ON sol.estado_tipo_solicitud_id = ets.id
+				 WHERE ets.tipo_solicitud_id = 1 AND sol.solicitud_finalizada = ?
+				 LIMIT ALL` + ` OFFSET ` + fmt.Sprintf("%v", offset)
+	} else {
+		query = `SELECT sol.* 
+				 FROM solicitud.solicitud sol
+				 INNER JOIN solicitud.estado_tipo_solicitud ets
+					ON sol.estado_tipo_solicitud_id = ets.id
+				 WHERE ets.tipo_solicitud_id = 1 AND sol.solicitud_finalizada = ?
+				 LIMIT ` + fmt.Sprintf("%v", limit) + ` OFFSET ` + fmt.Sprintf("%v", offset)
+	}
+
+	num, err := o.Raw(query, isFinish).QueryRows(&l)
 	if err == nil {
 		fmt.Println("num sols: ", num)
 		for _, v := range l {
