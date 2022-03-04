@@ -135,11 +135,25 @@ func (c *TrSolicitudController) GetAllByPersona() {
 // GetAllActive ...
 // @Title Get All
 // @Description get TrSolicitudController for active request
+// @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
+// @Param	offset	query	string	false	"Start position of result set. Must be an integer"
 // @Success 200 {object} models.TrSolicitudController
 // @Failure 404 not found resource
 // @router /active/ [get]
 func (c *TrSolicitudController) GetAllActive() {
-	l, err := models.GetAllSolicitudesWithFilter(false)
+	var limit int64 = 0
+	var offset int64 = 0
+
+	// limit: 0 (default is 0)
+	if v, err := c.GetInt64("limit"); err == nil {
+		limit = v
+	}
+	// offset: 0 (default is 0)
+	if v, err := c.GetInt64("offset"); err == nil {
+		offset = v
+	}
+
+	l, err := models.GetAllSolicitudesWithFilter(false, offset, limit)
 	if err != nil {
 		logs.Error(err)
 		c.Data["system"] = err
@@ -180,11 +194,26 @@ func (c *TrSolicitudController) GetAllByPersonaActive() {
 // GetAllInactive ...
 // @Title Get All
 // @Description get TrSolicitudController for active request
+// @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
+// @Param	offset	query	string	false	"Start position of result set. Must be an integer"
 // @Success 200 {object} models.TrSolicitudController
 // @Failure 404 not found resource
 // @router /inactive/ [get]
 func (c *TrSolicitudController) GetAllInactive() {
-	l, err := models.GetAllSolicitudesWithFilter(true)
+
+	var limit int64 = 0
+	var offset int64 = 0
+
+	// limit: 0 (default is 0)
+	if v, err := c.GetInt64("limit"); err == nil {
+		limit = v
+	}
+	// offset: 0 (default is 0)
+	if v, err := c.GetInt64("offset"); err == nil {
+		offset = v
+	}
+
+	l, err := models.GetAllSolicitudesWithFilter(true, offset, limit)
 	if err != nil {
 		logs.Error(err)
 		c.Data["system"] = err
