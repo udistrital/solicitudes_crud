@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/udistrital/auditoria"
 	_ "github.com/udistrital/solicitudes_crud/routers"
 	apistatus "github.com/udistrital/utils_oas/apiStatusLib"
 
@@ -42,6 +43,7 @@ func main() {
 	}))
 
 	apistatus.Init()
+	auditoria.InitMiddleware()
 	beego.ErrorController(&customerrorv2.CustomErrorController{})
 	beego.Run()
 }
