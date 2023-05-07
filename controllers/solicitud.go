@@ -164,11 +164,11 @@ func (c *SolicitudController) Put() {
 	id, _ := strconv.Atoi(idStr)
 	v := models.Solicitud{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-
-		v.FechaCreacion = time_bogota.TiempoCorreccionFormato(v.FechaCreacion)
-		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
-		v.FechaRadicacion = time_bogota.TiempoCorreccionFormato(v.FechaRadicacion)
-
+		if get, errGet := models.GetSolicitudById(id); errGet == nil {
+			v.FechaRadicacion = time_bogota.TiempoCorreccionFormato(get.FechaRadicacion)
+			v.FechaCreacion = time_bogota.TiempoCorreccionFormato(get.FechaCreacion)
+			v.FechaModificacion = time_bogota.TiempoBogotaFormato()
+		}
 		if err := models.UpdateSolicitudById(&v); err == nil {
 			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Update successful", "Data": v}
 		} else {
